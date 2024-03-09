@@ -1,22 +1,19 @@
 const express = require("express");
-
 const dotenv = require("dotenv");
-const path = require("path");
 const connectDB = require("./config/db");
-// const Patient = require("./Models/userModel");
-const patientRotues = require("./Routes/patientRotues");
+const userRoutes = require("./Routes/userRoutes");
+const dataRoutes = require("./Routes/dataRoutes");
 dotenv.config();
-
-
 connectDB();
-
-const app  = express();
+const app = express();
 
 app.use(express.json());
-app.get("/" ,(req,res)=>{
-    res.send("api is  running");
-})
+app.get("/",(req,res)=>{
+    res.send("Api is Running");
+});
 
-app.use("/api/patient",patientRotues);
+app.use("/api/user",userRoutes);
+app.use("/api/datavalue",dataRoutes);
 
-app.listen(5000,console.log("api is listening at port  = 5000"));
+const  PORT  = process.env.PORT || 5000;
+app.listen(PORT,console.log(`Server-Started on port  ${PORT}`));
