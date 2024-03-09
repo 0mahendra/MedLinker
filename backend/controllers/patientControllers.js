@@ -26,9 +26,9 @@ const allPatient = asyncHandler(async (req, res) => {
 //@access          Public
 const registerPatient = asyncHandler(async (req, res) => {
     console.log("yes it is callled");
-  const { name, email, password, pic } = req.body;
+  const { name, email,phnumber,age,sex,password, pic } = req.body;
 
-  if (!name || !email || !password) {
+  if (!name || !email || !password ) {
     res.status(400);
     throw new Error("Please Enter all the Feilds");
   }
@@ -43,15 +43,21 @@ const registerPatient = asyncHandler(async (req, res) => {
   const user = await Patient.create({
     name,
     email,
+    phnumber,
+    age,
+    sex,
     password,
     pic,
   });
+  console.log(user);
 
   if (user) {
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
+      age:user.age,
+      sex:user.sex,
       isAdmin: user.isAdmin,
       pic: user.pic,
       token: generateToken(user._id),
@@ -66,6 +72,7 @@ const registerPatient = asyncHandler(async (req, res) => {
 //@route           POST /api/users/login
 //@access          Public
 const authPatient = asyncHandler(async (req, res) => {
+  console.log("request aa gyii ");
   const { email, password } = req.body;
 
   const user = await Patient.findOne({ email });
