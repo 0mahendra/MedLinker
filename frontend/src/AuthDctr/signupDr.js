@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel, Input,VStack
+import { Box, Button, FormControl, FormLabel, Input,VStack
 } from "@chakra-ui/react";
 import { color } from "framer-motion";
 import React, { useState } from "react";
@@ -107,7 +107,7 @@ const SignupDr = ()=>{
            localStorage.setItem("userInfo",JSON.stringify(data));
    
            setLoading(false);
-           history.push("/")
+           history.push("/DHome")
    
         }
         catch(error){
@@ -125,6 +125,7 @@ const SignupDr = ()=>{
    return (
    <>
          <VStack spacing={"1px"} color={"white"}>
+         <Box overflowY={"scroll"} height={"400px"}>
          <FormControl id='first-name' isRequired>
        <FormLabel>Name</FormLabel>
        <Input
@@ -196,7 +197,7 @@ const SignupDr = ()=>{
    >Submit</Button>
 
 
-
+</Box>
    
          </VStack>
    </>
