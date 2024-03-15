@@ -1,17 +1,16 @@
 import React  from "react";
 import "./Info.css";
-import { Box, Button, Text } from "@chakra-ui/react"; 
+import Infonavbar from "./patPages.js/Infonavbar.js";
+import { Box, Button, Image, Text } from "@chakra-ui/react"; 
 import Video from "./Video";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import Testing from "../Testing";
+// import Testing from "../Testing";
+// import { easeIn } from "framer-motion";
+
+import Footer from "./patPages.js/Footer.js";
 const Info = ()=>{
       const history = useHistory();
-      const images = [
-        "https://www.shutterstock.com/image-photo/medicine-doctor-hold-icon-health-260nw-2144616781.jpg",
-        "https://images.pexels.com/photos/139398/thermometer-headache-pain-pills-139398.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "https://img.freepik.com/free-photo/medical-banner-with-stethoscope_23-2149611199.jpg?size=338&ext=jpg&ga=GA1.1.1395880969.1709856000&semt=sph",
-        "https://media.istockphoto.com/id/1327568875/photo/healthcare-business-graph-data-and-growth-insurance-healthcare-doctor-analyzing-medical-of.jpg?s=612x612&w=0&k=20&c=R4idIeTPq0f1TPSJwAq4KUeLUQg6ul8eIBSjvs9MXQk=",
-      ];
+      
 
       const handlePatient = ()=>{
               history.push("/Ptrgtn");
@@ -25,13 +24,42 @@ const Info = ()=>{
     <div className="about-page">
       <div className="about-content">
 
-      <Testing images={images} />
-         <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} height={"90vh"}> 
-         <h1 fontFamily={"fantasy"} fontSize={"100px"} textAlign={"center"}> Welcome MedLinker</h1>
-          <Box display={"flex"} justifyContent={"space-evenly"} alignItems={"center"} >
-          <Button  marginTop={"50px"}fontSize={"50px"} width={"50vh"} borderRadius={"20px"} bgColor={"violet"} onClick={handlePatient}  >As a patient</Button> 
-           <Button marginTop={"50px"}fontSize={"50px"}width={"50vh"} borderRadius={"20px"} bgColor={"violet"}onClick={handelDoctor}>As a Doctor</Button> 
+      {/* <Testing images={images} />
+       */}
 
+         <Box 
+           height={"100vh"}>
+           
+           <Image position={"fixed"} height={"100vh"} width={"100%"} src="https://cdn.dribbble.com/users/5739026/screenshots/16753501/media/bd04723f78fdce9c7df6bbb703f3ed20.jpg?resize=768x576&vertical=center"></Image>
+           <Infonavbar/>
+            <Box height={"100vh"} width={"100%"}  display={ "flex"} flexDirection={"column"}  position={"relative"}  alignItems={"center"} 
+            
+            
+         >
+                 {/* // yaha heading bhi  aa jayegii  */}
+                 <Box bgcolor={"black"} borderColor={"black"} borderWidth={"4px"} width={"50%"} display={"flex"} justifyContent={"center"} height={"20vh"} marginTop={"40px"}  backdropFilter="blur(8px)" alignItems={"center"}>
+                 <Text marginTop={"20px"} className = "transition-text" textColor={"black"}  fontSize={"120px"} fontWeight={"80px"} textAlign={"center"}  >MedLinker</Text>
+                 </Box>
+                 <Box  backdropFilter="blur(8px)">
+                 {/* <Text className="transiton-text"  fontSize={"50px"} font-family = {"Open Sans"} color={"black"} textAlign={"center"} >Your Comprehensive Online Hub for Medical Facilities</Text> */}
+                 </Box>
+                 
+            </Box>
+           </Box>
+         <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} textAlign={"center"} height={"90vh"} position={"relative"} > 
+         <Box display={"flex"} flexDirection={"row"} justifyContent={"center"}>
+         <Box borderColor={"black"} borderWidth={"2px"} width={"90%"} backdropFilter="blur(8px)" >
+         <Text fontFamily={"fantasy"}  textColor={"black"} fontSize={"100px"}className = "transition-text" fontSize={"100px"}  textAlign={"center"}> Welcome to MedLinker</Text>
+         </Box>
+         </Box>
+         <Text position={"relative"} fontSize={"70px"}  font-family = {"Open Sans"} backdropFilter="blur(8px)"  color={"black"} >explore us as </Text>
+          <Box display={"flex"}  justifyContent={"center"} alignItems={"center"} >
+        
+          <Button className="btn" type="button" color={"black"}  onClick={handlePatient}> As a patient</Button>
+          
+          <Button className="btn" type="button"  onClick={handelDoctor}> As a doctor</Button>
+          
+           
           </Box>
           
         
@@ -39,14 +67,17 @@ const Info = ()=>{
 
          </Box>
          
-        <p>Welcome to our healthcare website! We are dedicated to providing quality medical services to our community.</p>
-        <p>Our website is designed to help you find information about our hospital, medical services, and healthcare professionals.</p>
-        <p>Feel free to explore and reach out to us if you have any questions or inquiries.</p>
       </div>
       <div className="animated-image">
         {/* Animated hospital or healthcare-themed image */}
       </div>
     </div>
+    <Box Width={"100%"} height={"30vh"} borderColor={"black"} position={"relative"} borderWidth={"2px"}>
+        <Footer/>
+    </Box>
+       
+       
+    
 
         </>
       )
