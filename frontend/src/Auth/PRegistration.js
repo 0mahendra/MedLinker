@@ -23,7 +23,7 @@ const PRegistration = ()=>{
 
        <Box> 
         
-              <Box  width ={"30vw"} height = {"95vh"} borderRadius={"20px"} 
+              <Box  width ={"25vw"} marginTop={"40px"} height = {"80vh"} borderRadius={"20px"} 
         marginLeft={"60px"} borderColor={"rgb(28, 112, 112)" } borderWidth={"2px"}
             
         >
