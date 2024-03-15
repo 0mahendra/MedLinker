@@ -1,4 +1,5 @@
-import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from "@chakra-ui/react";
+
+import { Box, Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from "@chakra-ui/react";
 import { color } from "framer-motion";
 import React, { useState } from "react";
 import { useToast } from "@chakra-ui/react";
@@ -109,7 +110,7 @@ const postDetails=(pics)=>{
          };
          const {data} = await axios.post(
            "/api/patient",
-           {name,email ,phnumber,age,sex,password,pic},
+           {name,email,phnumber,age,sex,password,pic},
             config
            ); 
            toast({
@@ -138,16 +139,15 @@ const postDetails=(pics)=>{
            setLoading(false);
         }
        };
+       return(
+        <>
+<VStack spacing={"1px"}  color={"white"}>
 
-        
-             
-      
-    return (
-    <>
-          <VStack spacing={"1px"} color={"white"}>
+    <Box overflowY={"scroll"} maxHeight={"400px"}>
           <FormControl id='first-name' isRequired>
         <FormLabel>Name</FormLabel>
         <Input
+           
             placeholder="Enter Your Name"
             onChange={(e)=>setName(e.target.value)}
         />
@@ -232,10 +232,10 @@ const postDetails=(pics)=>{
 
 
 
-    
+    </Box>
           </VStack>
-    </>
-    )
+          </>
+       )
 }
 
-export default SignupPr;
+       export default SignupPr;
