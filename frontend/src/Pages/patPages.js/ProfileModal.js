@@ -7,8 +7,15 @@ import { IconButton, useDisclosure,Modal,ModalContent ,ModalOverlay,ModalHeader,
     Text
     } from "@chakra-ui/react";
 import React  from "react";
+
 const ProfileModal = ({user,children})=>{
+  
+
+
+    
     const {isOpen,onOpen,onClose} = useDisclosure();
+   
+
     return <>
         {
             children?<span onClick={onOpen}> {children}</span>:(
@@ -59,4 +66,3 @@ const ProfileModal = ({user,children})=>{
 };
 
 export default ProfileModal;
-
