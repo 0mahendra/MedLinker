@@ -15,6 +15,10 @@ Appointment Requests: Facilitating seamless communication, patients can send app
 Chat Functionality: Upon acceptance of appointment requests, MedLinker enables real-time communication between patients and doctors via a secure chat interface, fostering effective doctor-patient interaction.
 Report Management: Doctors can effortlessly upload and share medical reports, enabling patients to access and review their health records conveniently within the platform.
 AI-Powered Assistance: MedLinker features an interactive AI bot capable of providing personalized assistance to users, enhancing the overall user experience and accessibility.
+
+
+
+
 Conclusion:
 MedLinker represents a paradigm shift in healthcare connectivity, leveraging technology to bridge the gap between patients and healthcare providers. 
 With its array of user-friendly features, stringent security protocols, and AI-driven assistance, MedLinker is poised to revolutionize the healthcare landscape, empowering individuals to take charge of their health effectively.
