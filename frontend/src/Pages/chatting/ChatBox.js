@@ -1,53 +1,106 @@
 import React, { useState, useEffect } from 'react';
-import { Box, FormControl, Input, Spinner, Text, VStack } from '@chakra-ui/react';
+import { Avatar, Box, FormControl, Input, Spinner, Text, VStack } from '@chakra-ui/react';
 import axios from 'axios';
 import ChatLoading from './ChatLoading';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import Navbarp from '../patPages/Navbarp';
+import Navbard from '../dctrPages/Navbard';
 // import { response } from 'express';
+import io from "socket.io-client";
+
+const ENDPOINT = "http://localhost:5000";
+var socket  = io.connect(ENDPOINT);
+var selectedChatCompare;
 
 const ChatBox = () => {
 
-  
+  const location = useLocation();
+  const { loggedUser } = location.state;
+  // console.log(loggedUser);
  
   const [messages, setMessages] = useState([]);
-  // const [reversedEntries ,setReversedEntries]  = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  
   const[loading ,setLoading] = useState(false);
   const[chatId,setChatId] = useState();
-  // const[chaton,setChaton] =useState(false);
+ 
   const [showFirst, setShowFirst] = useState(true);
   const [data ,setData] =useState();
   const [newmsg ,setNewmsg] = useState();
   const [psValue,setPsValue] = useState("enter your message");
-  // const[chaton,setChaton] =useState(false);
-  // let chatId1;
-  //   localStorage.removeItem("chaton");
-  //  console.log(chatId);
-  //   if(chaton1 === true)setChaton(true);
-  // let data1;
+  const [socketConnected, setSocketConnected] = useState(false);
+ let selectedChat;
   let chatId1 =  JSON.parse(localStorage.getItem("chatId"));
+  // console.log("this is chatid from chatbox",chatId1)
   let sender = localStorage.getItem("sender");
-  console.log(sender);
+
+  
+
+  // console.log(sender);
+  let user;
+  if(sender === "doctor"){
+   user = JSON.parse(localStorage.getItem("dctrInfo"));
+  }
+  else{
+   user = JSON.parse(localStorage.getItem("userInfo"));
+  }
+
+
+  // console.log(user);     
+  useEffect(() => {
+      fetchMessages(chatId1);         
+    const timer = setTimeout(() => {
+      setShowFirst(false); 
+    }, 1000);
+
+   
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect (()=>{
     
+      socket.on("receive_msg" , (data) =>{
+
+        const chatId  = data.chatId;
+        const sender = data.sender;
+        const content = data.content;
+        alert(content)
+        const setMsg= async() =>{
+        const message = await axios.post(`/api/messages/chatId/send`, {chatId,sender,content});  
+      }
+      // fetchMessages(chatId);
+      setMessages([...messages,data]);
+      console.log(data);
+      console.log(messages);
+      console.log("this is msg",messages)
+      })
+  },[socket])
+
 
      const sendMessage = async()=>{
+      // console.log(sender);
     
       const content = newmsg;
-      const chatId = chatId1;
+      let chatId = chatId1;
+      console.log("this is new msg" ,content);
+      console.log("thisis chatid",chatId);
+
+      socket.emit("send_message" , {content : content , chatId : chatId ,sender : sender});
 
       try{
            
-        const messages = await axios.post(`/api/messages/chatId/send`, {chatId,sender,content});
+        const message = await axios.post(`/api/messages/chatId/send`, {chatId,sender,content});
         // const data = await messages
-        console.log(messages);
-      
-        // history.push("/ChatBox");
-         
-        
+        console.log(message);
+   
      }catch(eror){
         console.log(eror);
      }
     
      setNewmsg('');
+
+
      setPsValue('enter the new msg');
      
      }
@@ -55,9 +108,11 @@ const ChatBox = () => {
     
     const fetchMessages = async (chatId) => {
       try {
-        console.log(chatId);
-        const response = await axios.post('/api/messages/chatId/fetch' ,{chatId}); // Replace with your API endpoint
-        setMessages(response.data); // Update state with fetched messages
+        console.log("this chat id from fetchmwsage",chatId);
+        const response = await axios.post('/api/messages/chatId/fetch' ,{chatId},); // Replace with your API endpoint
+        // console.log(response);
+        setMessages(response.data);
+        // console.log(response.data); // Update state with fetched messages
         // setReversedEntries(Array.from(response.data.entries()).reverse());
       
       } catch (error) {
@@ -68,32 +123,14 @@ const ChatBox = () => {
     const handleKeyDown = (event) => {
       if (event.key === 'Enter') {
         sendMessage();
-        fetchMessages();
+        // fetchMessages();
+        setPsValue('enter the new msg');
       }
     };
    
-    
-  useEffect(() => {
-    
-    //  console.log(chatId1 );
-      // setChatId(chatId1);
-      // console.log(chatId);
-      fetchMessages(chatId1);
 
-        
-      // setMessages(reversedEntries);
-      // console.log(reversedEntries);
-          
-    const timer = setTimeout(() => {
-      setShowFirst(false); 
-    }, 3000);
 
-   
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // console.log(data1); 
+ 
 
  
 
@@ -101,13 +138,20 @@ const ChatBox = () => {
 
     <>
     {sender === "patient" ? ( 
-      <Box bg="white" p={4} w="100%" h="100vh" overflowY="auto " borderRadius={"10px"} alignItems={"center"} justifyContent={"center"} >
-      <Text fontWeight="bold" mb={2}>Chat User</Text>
-      <VStack align="flex-end" spacing={2}>
+      <Box>
+      <Navbarp/>
+      <Box width={"100%"} borderBottomWidth={"8px"} ></Box>
+      <Box bgColor="white" p={4} w="100%" h="90vh" overflowY="auto " sx={{  // Customize scrollbar appearance
+        "&::-webkit-scrollbar": {
+          width: "0px" 
+}}} borderRadius={"10px"} alignItems={"center"} justifyContent={"center"}  bgColor={"lightblue"}>
+      
+      <Text fontWeight="bold" mb={2} textAlign={"center"} fontFamily={"Work sans"} borderBottomWidth={"2px"} fontSize={"30px"}>{loggedUser.nameD}</Text>
+      <VStack align="flex-end" spacing={10}>
        
 
         {loading ?(
-          <Box height={"100vh"} width={"100%"} display={"flex"} alignItems={"center"}  bgColor={"red"} flexDirection={"column"}>
+          <Box height={"90vh"} width={"100%"} display={"flex"} alignItems={"center"}  bgColor={"red"} flexDirection={"column"}>
               <Spinner
                 size={"xl"}
                 w={20}
@@ -120,12 +164,21 @@ const ChatBox = () => {
 
                </Box>
 
+           
             ):(
-              <Box height={"90vh"} width={"100%"} display={"flex"}  bgColor={"purple"} flexDirection={"column"}>
-      <Box overflowY={"auto"} flex={"1"} display={"flex"}  flexDirection={"column-reverse"}>{/* Make the message container scrollable */}
+              <Box height={"80vh"} width={"100%"} display={"flex"} flexDirection={"column"}>
+      <Box overflowY={"auto"} sx={{  // Customize scrollbar appearance
+        "&::-webkit-scrollbar": {
+          width: "0px"  // Hide the scrollbar
+        }
+      }}flex={"1"} display={"flex"}  flexDirection={"column-reverse"} bgColor={'lightblue'}>{/* Make the message container scrollable */}
         {messages.slice(0).reverse().map(message => (
            
-          message.sender === "doctor" ? (<Text key={message.id}  marginBottom={"8px"} fontFamily={"Work sans"} fontSize={"20px"} marginRight={"10px"} textAlign={"right"} > <span style={{ borderRadius:"10px" , margin:"10px" }}>
+          message.sender === "doctor" ? (
+            
+           <Box display={"flex"} flexDirection={"row"} >
+           
+            <Text key={message.id}  marginBottom={"8px"} fontFamily={"Work sans"} fontSize={"20px"} color={"red"} marginRight={"10px"} textAlign={"left"} > <span style={{ borderRadius:"10px" , margin:"10px" ,color:"lightyellow", fontFamily :"Work sans",fontWeight:"700" }}>
     {message.content}
   </span>
   <span style={{ fontSize: "12px", color: "#999" }}>
@@ -135,9 +188,10 @@ const ChatBox = () => {
     {message.timestamp[14]}
     {message.timestamp[15]} {/* Assuming message.timestamp contains the timestamp */}
   </span></Text>
+  </Box>
            
            ) :(
-          <Text key={message.id} marginBottom={"8px"} fontFamily={"Work sans"} fontSize={"20px"} marginRight={"10px"} textAlign={"left"} > <span style={{borderRadius:"10px", margin:"10px"}}>
+          <Text key={message.id} marginBottom={"8px"} fontFamily={"Work sans"} fontSize={"20px"} marginRight={"10px"} textAlign={"right"} > <span style={{borderRadius:"10px", margin:"10px",fontFamily :"Work sans",fontSize:"20px",fontWeight:"700"}}>
     {message.content}
   </span>
   <span style={{ fontSize: "12px", color: "#999" }}>
@@ -155,7 +209,7 @@ const ChatBox = () => {
           bg={"#E0E0E0"}
           placeholder={`${psValue}`}
           // onChange={typingHandler}
-          value={newmsg}
+          // value={newmsg}
 
           onChange={(e)=>setNewmsg(e.target.value)}
           onKeyDown={handleKeyDown} 
@@ -165,6 +219,8 @@ const ChatBox = () => {
     </Box>
             )}
       </VStack>
+
+    </Box>
 
     </Box>
       
@@ -176,13 +232,20 @@ const ChatBox = () => {
           
     ) : (
       <>
-      <Box bg="white" p={4} w="100%" h="100vh" overflowY="auto " borderRadius={"10px"} alignItems={"center"} justifyContent={"center"} >
-      <Text fontWeight="bold" mb={2}>Chat Dctr</Text>
+      <Box>
+       <Navbard/>
+       <Box width={"100%"} borderBottomWidth={"8px"} ></Box> 
+      <Box bg="white" p={4} w="100%" h="90vh" overflowY="auto " sx={{  // Customize scrollbar appearance
+        "&::-webkit-scrollbar": {
+          width: "0px"  // Hide the scrollbar
+        }
+      }} borderRadius={"10px"} alignItems={"center"} justifyContent={"center"}  bgColor={'lightblue'} >
+      <Text borderBottomWidth={"2px"} fontWeight="bold" mb={2} textAlign={"center"} fontSize={"30px"}>{loggedUser.nameP}</Text>
       <VStack align="flex-end" spacing={2}>
        
 
         {loading ?(
-          <Box height={"100vh"} width={"100%"} display={"flex"} alignItems={"center"}  bgColor={"red"} flexDirection={"column"}>
+          <Box height={"90vh"} width={"100%"} display={"flex"} alignItems={"center"}  bgColor={"red"} flexDirection={"column"}>
               <Spinner
                 size={"xl"}
                 w={20}
@@ -196,10 +259,13 @@ const ChatBox = () => {
                </Box>
 
             ):(
-              <Box height={"90vh"} width={"100%"} display={"flex"}   flexDirection={"column"}>
-      <Box overflowY={"auto"} flex={"1"} display={"flex"}  flexDirection={"column-reverse"}>{/* Make the message container scrollable */}
+              <Box height={"80vh"} width={"100%"} display={"flex"}   flexDirection={"column"}>
+      <Box overflowY={"auto"}height={"90vh"}  flex={"1"} display={"flex"}  flexDirection={"column-reverse"}>{/* Make the message container scrollable */}
         {messages.slice(0).reverse().map(message => (
-          message.sender === "doctor" ? (<Text key={message.id}  marginBottom={"8px"}  fontFamily={"Work sans"} fontSize={"20px"} marginRight={"10px"} textAlign={"right"} ><span style={{borderRadius:"10px" ,margin:"10px" }}>
+          message.sender === "doctor" ? (
+            <Box>
+           
+             <Text key={message.id}  marginBottom={"8px"}  fontFamily={"Work sans"} fontSize={"20px"} marginRight={"10px"} textAlign={"right"} ><span style={{borderRadius:"10px" ,margin:"10px", fontFamily:"Work sans", fontWeight:"700" }}>
     {message.content}
   </span>
   <span style={{ fontSize: "12px", color: "#999" }}>
@@ -209,8 +275,10 @@ const ChatBox = () => {
     {message.timestamp[14]}
     {message.timestamp[15]} {/* Assuming message.timestamp contains the timestamp */}
   </span></Text>
+  </Box>
           ) :(
-          <Text key={message.id}  marginBottom={"8px"} fontFamily={"Work sans"} fontSize={"20px"} marginRight={"10px"} textAlign={"left"} > <span style={{borderRadius:"10px" ,margin:"10px" }}>
+            <Box display={"flex"} flexDirection={"row"}  >
+             <Text key={message.id}  marginBottom={"8px"} fontFamily={"Work sans"} fontSize={"20px"} marginRight={"10px"} textAlign={"left"} > <span style={{borderRadius:"10px" ,margin:"10px" ,fontFamily:"Work sans", fontWeight:"700",color:"lightyellow"}}>
     {message.content}
   </span> 
   <span style={{ fontSize: "12px", color: "#999" }}>
@@ -220,7 +288,8 @@ const ChatBox = () => {
     {message.timestamp[14]}
     {message.timestamp[15]}
      {/* Assuming message.timestamp contains the timestamp */}
-  </span></Text>)
+  </span></Text>
+  </Box>)
         ))}
       </Box>
       <FormControl isRequired mt={3}>
@@ -241,6 +310,7 @@ const ChatBox = () => {
       </VStack>
 
     </Box>
+    </Box>
         
       </>
     ))
@@ -251,3 +321,4 @@ const ChatBox = () => {
 };
 
 export default ChatBox;
+
