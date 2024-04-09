@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Avatar, Box, FormControl, Input, Spinner, Text, VStack } from '@chakra-ui/react';
 import axios from 'axios';
 import ChatLoading from './ChatLoading';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import Navbarp from '../patPages/Navbarp';
 import Navbard from '../dctrPages/Navbard';
+
+import { Tooltip } from "@chakra-ui/tooltip";
+import ScrollableFeed from "react-scrollable-feed"
 // import { response } from 'express';
 import io from "socket.io-client";
 
@@ -19,7 +22,9 @@ const ChatBox = () => {
   // console.log(loggedUser);
  
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
+  const[sendmessages , setSendmessages] = useState([]);
+
+  var newMessages
   
   const[loading ,setLoading] = useState(false);
   const[chatId,setChatId] = useState();
@@ -58,6 +63,9 @@ const ChatBox = () => {
     return () => clearTimeout(timer);
   }, []);
 
+ 
+
+
   useEffect (()=>{
     
       socket.on("receive_msg" , (data) =>{
@@ -65,15 +73,14 @@ const ChatBox = () => {
         const chatId  = data.chatId;
         const sender = data.sender;
         const content = data.content;
-        alert(content)
-        const setMsg= async() =>{
-        const message = await axios.post(`/api/messages/chatId/send`, {chatId,sender,content});  
-      }
+        
+       
       // fetchMessages(chatId);
-      setMessages([...messages,data]);
-      console.log(data);
-      console.log(messages);
-      console.log("this is msg",messages)
+      setMessages(messages => [...messages, content]);
+      setSendmessages(sendmessages =>[...sendmessages , sender] );
+      // console.log(data);
+      // console.log(messages);
+      // console.log("this is msg",messages)
       })
   },[socket])
 
@@ -92,7 +99,7 @@ const ChatBox = () => {
            
         const message = await axios.post(`/api/messages/chatId/send`, {chatId,sender,content});
         // const data = await messages
-        console.log(message);
+        // console.log(message);
    
      }catch(eror){
         console.log(eror);
@@ -110,8 +117,15 @@ const ChatBox = () => {
       try {
         console.log("this chat id from fetchmwsage",chatId);
         const response = await axios.post('/api/messages/chatId/fetch' ,{chatId},); // Replace with your API endpoint
-        // console.log(response);
-        setMessages(response.data);
+        // console.log(response.data);
+       const  newMessages = response.data.map(data => data.content );
+          // console.log(newMessages);
+          setMessages(messages => [...messages, ...newMessages]);
+        //  console.log(messages);
+         const  newsMessages = response.data.map(data => data.sender );  
+          // console.log(newsMessages);
+          setSendmessages(sendmessages => [...sendmessages, ...newsMessages]);
+        
         // console.log(response.data); // Update state with fetched messages
         // setReversedEntries(Array.from(response.data.entries()).reverse());
       
@@ -137,17 +151,17 @@ const ChatBox = () => {
   return (
 
     <>
-    {sender === "patient" ? ( 
+     {sender === "patient" ? ( 
       <Box>
       <Navbarp/>
       <Box width={"100%"} borderBottomWidth={"8px"} ></Box>
       <Box bgColor="white" p={4} w="100%" h="90vh" overflowY="auto " sx={{  // Customize scrollbar appearance
         "&::-webkit-scrollbar": {
           width: "0px" 
-}}} borderRadius={"10px"} alignItems={"center"} justifyContent={"center"}  bgColor={"lightblue"}>
+}}} borderRadius={"10px"} alignItems={"center"} justifyContent={"center"}  >
       
       <Text fontWeight="bold" mb={2} textAlign={"center"} fontFamily={"Work sans"} borderBottomWidth={"2px"} fontSize={"30px"}>{loggedUser.nameD}</Text>
-      <VStack align="flex-end" spacing={10}>
+      <VStack align="flex-start" spacing={10}>
        
 
         {loading ?(
@@ -171,36 +185,24 @@ const ChatBox = () => {
         "&::-webkit-scrollbar": {
           width: "0px"  // Hide the scrollbar
         }
-      }}flex={"1"} display={"flex"}  flexDirection={"column-reverse"} bgColor={'lightblue'}>{/* Make the message container scrollable */}
-        {messages.slice(0).reverse().map(message => (
+      }}flex={"1"} display={"flex"}  flexDirection={"column"} bgColor={'lightblue'}  >{/* Make the message container scrollable */}
+        {messages.map((message ,i) => (
            
-          message.sender === "doctor" ? (
+          sendmessages[i] === "doctor" ? (
             
            <Box display={"flex"} flexDirection={"row"} >
            
-            <Text key={message.id}  marginBottom={"8px"} fontFamily={"Work sans"} fontSize={"20px"} color={"red"} marginRight={"10px"} textAlign={"left"} > <span style={{ borderRadius:"10px" , margin:"10px" ,color:"lightyellow", fontFamily :"Work sans",fontWeight:"700" }}>
-    {message.content}
+            <Text marginBottom={"8px"} fontFamily={"Work sans"} fontSize={"20px"} color={"red"} marginRight={"10px"} textAlign={"left"} > <span style={{ borderRadius:"10px" , margin:"10px" ,color:"lightyellow", fontFamily :"Work sans",fontWeight:"700" }}>
+    {message}
   </span>
-  <span style={{ fontSize: "12px", color: "#999" }}>
-    {message.timestamp[11]}
-    {message.timestamp[12]}
-    {message.timestamp[13]}
-    {message.timestamp[14]}
-    {message.timestamp[15]} {/* Assuming message.timestamp contains the timestamp */}
-  </span></Text>
+  </Text>
   </Box>
            
            ) :(
-          <Text key={message.id} marginBottom={"8px"} fontFamily={"Work sans"} fontSize={"20px"} marginRight={"10px"} textAlign={"right"} > <span style={{borderRadius:"10px", margin:"10px",fontFamily :"Work sans",fontSize:"20px",fontWeight:"700"}}>
-    {message.content}
+          <Text  marginBottom={"8px"} fontFamily={"Work sans"} fontSize={"20px"} marginRight={"10px"} textAlign={"right"} > <span style={{borderRadius:"10px", margin:"10px",fontFamily :"Work sans",fontSize:"20px",fontWeight:"700"}}>
+    {message}
   </span>
-  <span style={{ fontSize: "12px", color: "#999" }}>
-    {message.timestamp[11]}
-    {message.timestamp[12]}
-    {message.timestamp[13]}
-    {message.timestamp[14]}
-    {message.timestamp[15]} {/* Assuming message.timestamp contains the timestamp */}
-  </span></Text>)
+ </Text>)
         ))}
       </Box>
       <FormControl isRequired mt={3}>
@@ -241,7 +243,7 @@ const ChatBox = () => {
         }
       }} borderRadius={"10px"} alignItems={"center"} justifyContent={"center"}  bgColor={'lightblue'} >
       <Text borderBottomWidth={"2px"} fontWeight="bold" mb={2} textAlign={"center"} fontSize={"30px"}>{loggedUser.nameP}</Text>
-      <VStack align="flex-end" spacing={2}>
+      <VStack align="flex-start" spacing={2}>
        
 
         {loading ?(
@@ -260,35 +262,22 @@ const ChatBox = () => {
 
             ):(
               <Box height={"80vh"} width={"100%"} display={"flex"}   flexDirection={"column"}>
-      <Box overflowY={"auto"}height={"90vh"}  flex={"1"} display={"flex"}  flexDirection={"column-reverse"}>{/* Make the message container scrollable */}
-        {messages.slice(0).reverse().map(message => (
-          message.sender === "doctor" ? (
+      <Box overflowY={"auto"}height={"90vh"}  flex={"1"} display={"flex"}  flexDirection={"column"} >{/* Make the message container scrollable */}
+        {messages.map((message,i) => (
+          sendmessages[i] === "doctor" ? (
             <Box>
            
-             <Text key={message.id}  marginBottom={"8px"}  fontFamily={"Work sans"} fontSize={"20px"} marginRight={"10px"} textAlign={"right"} ><span style={{borderRadius:"10px" ,margin:"10px", fontFamily:"Work sans", fontWeight:"700" }}>
-    {message.content}
+             <Text  marginBottom={"8px"}  fontFamily={"Work sans"} fontSize={"20px"} marginRight={"10px"} textAlign={"right"} ><span style={{borderRadius:"10px" ,margin:"10px", fontFamily:"Work sans", fontWeight:"700" }}>
+    {message}
   </span>
-  <span style={{ fontSize: "12px", color: "#999" }}>
-    {message.timestamp[11]}
-    {message.timestamp[12]}
-    {message.timestamp[13]}
-    {message.timestamp[14]}
-    {message.timestamp[15]} {/* Assuming message.timestamp contains the timestamp */}
-  </span></Text>
+ </Text>
   </Box>
           ) :(
             <Box display={"flex"} flexDirection={"row"}  >
-             <Text key={message.id}  marginBottom={"8px"} fontFamily={"Work sans"} fontSize={"20px"} marginRight={"10px"} textAlign={"left"} > <span style={{borderRadius:"10px" ,margin:"10px" ,fontFamily:"Work sans", fontWeight:"700",color:"lightyellow"}}>
-    {message.content}
+             <Text marginBottom={"8px"} fontFamily={"Work sans"} fontSize={"20px"} marginRight={"10px"} textAlign={"left"} > <span style={{borderRadius:"10px" ,margin:"10px" ,fontFamily:"Work sans", fontWeight:"700",color:"lightyellow"}}>
+    {message}
   </span> 
-  <span style={{ fontSize: "12px", color: "#999" }}>
-    {message.timestamp[11]}
-    {message.timestamp[12]}
-    {message.timestamp[13]}
-    {message.timestamp[14]}
-    {message.timestamp[15]}
-     {/* Assuming message.timestamp contains the timestamp */}
-  </span></Text>
+ </Text>
   </Box>)
         ))}
       </Box>
@@ -316,6 +305,11 @@ const ChatBox = () => {
     ))
     )
     }
+    
+
+        
+
+    
   </>
   );
 };
