@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Avatar, Box, Button, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text,Tooltip } from "@chakra-ui/react";
-// import { DataState } from "../../context/DataProvider";
+
 import ProfileModal from  "../patPages/ProfileModal";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
@@ -55,8 +55,7 @@ let sender = "doctor";
               <Button   variant={"ghost"}  width={"auto"}  marginBottom={"10px"}  onClick={Reportd} > 
               <i class="fas fa-notes-medical"></i>
               </Button>
-              {/* <Button  variant={"ghost"}  width={"auto"} marginBottom={"10px"}   onClick={FindDct}>  */}
-              {/* <i class="fas fa-user-nurse"></i></Button> */}
+            
                 </Box>
                 <Box marginBottom={"40%"} justifyContent={"center"} marginLeft={"17%"} >
                 <Button  variant={"ghost"}  width={"auto"}    onClick={logoutHandler}> 
