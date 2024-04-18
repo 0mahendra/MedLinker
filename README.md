@@ -1,6 +1,9 @@
 
 Title: MedLinker: Transforming Healthcare Connectivity
 
+![image](https://github.com/0mahendra/MedLinker/assets/97393308/649d67d8-7494-47bd-8493-c194b1e3bd58)
+
+
 Introduction:
 MedLinker, our innovative project, clinched the prestigious 2nd rank in the esteemed college fest AVISHKAR 2024. 
 Designed and developed by our adept team of coders, MedLinker is a comprehensive web application focused on enhancing the interface between patients and healthcare providers.
