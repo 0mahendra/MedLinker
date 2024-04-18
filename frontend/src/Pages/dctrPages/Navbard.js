@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { Avatar, Box, Button, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text } from "@chakra-ui/react";
+import { Avatar, Box, Button, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text,Tooltip } from "@chakra-ui/react";
 // import { DataState } from "../../context/DataProvider";
 import ProfileModal from  "../patPages/ProfileModal";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -9,7 +9,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-const Navbarp = ()=>{
+const Navbard = ()=>{
 
 const history =useHistory();
 
@@ -33,49 +33,39 @@ let sender = "doctor";
   const communication = ()=>{
     history.push("/Commu" ,{sender});
   }
+  const Reportd =()=>{
+    history.push("/Reportd");
+  }
  
 
     return (
         <> 
 
           
-          <Box  display={"flex"} flexDirection={"row"} >
-             {/* starting segemenet  */}
-             <Box width={"20%"} height={"10vh"}  display={"flex"} flexDir={"row"} >
-              <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/healthcare-3099180-2578767.png?f=webp&w=256"/> 
-            <Text fontStyle={"Bold"} fontSize={"26px"} marginTop={"8px"} marginLeft={"25px"}>MedLinker</Text>
-             </Box>
+<Box width={"10vh"} marginBottom={"10px"}  height={"100vh"} display={ "flex"} flexDirection={"column"} bgColor={"#3484d9"}  marginLeft={"1%"}borderRadius={"30px"} justifyContent={"space-between"}>
+                
 
-             {/* middle segmenet  */}
-             <Box width={"60%"} height={"10vh"} display={ "flex"} flexDirection={"row"} justifyContent={"center"} alignItems={"center"}>
-
-                <Button  className = {"btn"} variant={"ghost"} width={"auto"} margin={"5px"} onClick={Home} > Home</Button>
-                <Button className = {"btn"} variant={"ghost"}  width={"auto"} margin={"5px"}   onClick={communication} > Communication</Button>
-                <Button  className = {"btn"} variant={"ghost"}  width={"auto"}  margin={"5px"}    > Report's</Button>
-                {/* <Button className = {"btn"} variant={"ghost"}  width={"auto"}  margin={"5px"}   > find Doctor's</Button> */}
-             </Box>
-              {/* end segmenet */}
-              {/* <Box width={"20%"} height={"10vh"} display={"flex"} flexDirection={"row-reverse"} alignItems={"center"}>
+                <Box marginTop={"60%"}  display={"flex"} justifyContent={"space-evenly"} flexDirection={"column"} >
+                <Button  variant={"ghost"}   marginBottom={"10px"} onClick={Home}  >
+                <Tooltip label='Home' fontSize='md'>
+                      <i class="fas fa-home "></i>
+                 </Tooltip>
+                 </Button>
+              <Button  variant={"ghost"}  width={"auto"} marginBottom={"10px"}   onClick={communication} > <i class="fas fa-comment"></i></Button>
+              <Button   variant={"ghost"}  width={"auto"}  marginBottom={"10px"}  onClick={Reportd} > 
+              <i class="fas fa-notes-medical"></i>
+              </Button>
+              {/* <Button  variant={"ghost"}  width={"auto"} marginBottom={"10px"}   onClick={FindDct}>  */}
+              {/* <i class="fas fa-user-nurse"></i></Button> */}
+                </Box>
+                <Box marginBottom={"40%"} justifyContent={"center"} marginLeft={"17%"} >
+                <Button  variant={"ghost"}  width={"auto"}    onClick={logoutHandler}> 
+                <i class="fas fa-chevron-right"></i></Button>
+                  
+                </Box>
               
-                <ProfileModal  user={user}/> 
-              </Box> */}
-
-              <Menu variant={"ghost"}>
-                    <MenuButton margin={"auto"} as={Button} variant={"ghost"}  rightIcon={<ChevronDownIcon/>}>
-                       <Avatar size={"sm"} cursor={"pointer"} name={user.name} src={user.pic}></Avatar>
-                    </MenuButton>
-                    <MenuList variant={"ghost"}  >
-                         <ProfileModal user={user}>
-                         <MenuItem  variant={"ghost"} color={"black"}>My Profile</MenuItem>
-                         </ProfileModal>
-                       
-                        <MenuDivider></MenuDivider>
-                        <MenuItem  variant ={"ghost"}color={"black"} onClick={logoutHandler}>Logout</MenuItem>
-                    </MenuList>
-                </Menu>
              
-          </Box>
-
+           </Box>
 
         
         </>
@@ -83,4 +73,4 @@ let sender = "doctor";
     )
 };
 
-export default Navbarp;
+export default Navbard;
