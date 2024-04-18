@@ -9,6 +9,9 @@ MedLinker, our innovative project, clinched the prestigious 2nd rank in the este
 Designed and developed by our adept team of coders, MedLinker is a comprehensive web application focused on enhancing the interface between patients and healthcare providers.
 Its multifaceted functionalities streamline the process of connecting patients with doctors, ensuring a seamless healthcare experience.
 
+![image](https://github.com/0mahendra/MedLinker/assets/97393308/8f6cbd6a-e345-43ba-814d-91ed5ed4db0e)
+
+
 Key Features:
 
 Secure Authentication: Prioritizing data security, MedLinker employs robust authentication mechanisms to safeguard user information, ensuring confidentiality and trust.
