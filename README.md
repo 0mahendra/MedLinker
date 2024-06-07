@@ -1,7 +1,8 @@
 
 Title: MedLinker: Transforming Healthcare Connectivity
 
-![image](https://github.com/0mahendra/MedLinker/assets/97393308/649d67d8-7494-47bd-8493-c194b1e3bd58)
+![image](https://github.com/0mahendra/MedLinker/assets/97393308/6a50a870-e7e0-452a-9139-9998bf02901a)
+
 
 
 Introduction:
