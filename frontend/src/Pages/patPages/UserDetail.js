@@ -50,8 +50,8 @@ const UserDetails = ({user ,dctrData})=>{
                   ); 
                   toast({
                       title:` thanks for your detail. ${dctrData.name} will soon connect with you `,
-                      status:"warning",
-                      duration:5000,
+                      status:"success",
+                      duration:2000,
                       isClosable:true,
                       position:"bottom",
            
@@ -67,7 +67,7 @@ const UserDetails = ({user ,dctrData})=>{
                   toast({
                       title:"error occured",
                       status:"error",
-                      duration:5000,
+                      duration:3000,
                       isClosable:true,
                       position:"bottom",
            
@@ -184,11 +184,12 @@ const UserDetails = ({user ,dctrData})=>{
    
      
     <Button
+        marginTop={"15%"}
         className="btn"
        
        onClick={submitHandler}
       >
-        Click Me
+       Submit Detail's
       </Button>
       <style jsx>{`
         @keyframes sparkle {
