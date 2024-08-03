@@ -16,7 +16,7 @@ const LoginDr = ()=>{
     setLoading(true);
     if( !email|| !password ){
        toast({
-           title:"sarri field fill karo yrr!",
+           title:"please fill all the details!",
            status:"warning",
            duration:5000,
            isClosable:true,
@@ -40,8 +40,8 @@ const LoginDr = ()=>{
        ); 
        toast({
            title:"Registration Successful",
-           status:"warning",
-           duration:5000,
+           status:"success",
+           duration:2000,
            isClosable:true,
            position:"bottom",
 
@@ -56,7 +56,7 @@ const LoginDr = ()=>{
        toast({
            title:"error occured",
            status:"error",
-           duration:5000,
+           duration:2000,
            isClosable:true,
            position:"bottom",
 
@@ -86,6 +86,7 @@ const LoginDr = ()=>{
 
 
     <Button
+    
     bgColor={"rgb(28, 112, 112)"}
     borderRadius={"1px"} 
     margin marginTop={"8px" } 
