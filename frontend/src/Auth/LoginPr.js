@@ -82,6 +82,7 @@ const LoginPr = ()=>{
     <FormControl id='password' isRequired>
         <FormLabel>Password</FormLabel>
         <Input
+        type="password"
             placeholder="Enter Your password"
             onChange={(e)=>setPassword(e.target.value)}
         />
@@ -90,9 +91,9 @@ const LoginPr = ()=>{
 
 
     <Button
-    bgColor={"rgb(28, 112, 112)"}
-    borderRadius={"1px"} 
-    margin marginTop={"8px" } 
+     marginTop={"30px"}
+ 
+     className="btn" 
     onClick={submitHandler}>Submit</Button>
     </VStack>
            
