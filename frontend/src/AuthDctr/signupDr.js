@@ -73,7 +73,7 @@ const SignupDr = ()=>{
         setLoading(true);
         if(!name || !email|| !password  ){
            toast({
-               title:"sarri field fill karo yrr!",
+               title:"please fill all the fields!",
                status:"warning",
                duration:5000,
                isClosable:true,
@@ -98,7 +98,7 @@ const SignupDr = ()=>{
            ); 
            toast({
                title:"Registration Successful",
-               status:"warning",
+               status:"success",
                duration:5000,
                isClosable:true,
                position:"bottom",
