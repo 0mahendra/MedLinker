@@ -77,24 +77,28 @@ const FindDctr = ()=>{
           <Box
             margin={"10px"}
             width={ "300px"}
-            height={"450px"}
-            
+            height={"auto"}
+            bgColor={"#3484d9"}
+
+
+            borderRadius={"20px"}
             boxShadow={"3px 3px 6px rgba(0, 0, 0, 0.16)"}
             borderWidth={"2px"}
+
             _hover={
-              { transition :"width 0.3s ease-in-out", width:"320px",height:"470", boxShadow : "3px 3px 6px rgba(0, 255,252, 0.16)"} 
+              { transition :"width 0.3s ease-in-out", width:"320px",height:"auto", boxShadow : "3px 3px 6px rgba(0, 255,252, 0.16)",display:"block"} 
                     
                   }
             key={index}
             marginBottom={"80px"}
 
           >
-            <Image src={item.pic} />
-            <Text fontSize={"20px"} textAlign={"center"} fontFamily={"work snas"} >{item.name}         ( {item.mproficiency}) </Text>
+            <Image borderRadius={"full"} height={"200px"} margin={"2%"} marginLeft={"17%"}  width={"70%"} src={item.pic} />
+            <Text fontSize={"31px"} textAlign={"center"} fontFamily={"work snas"}  color={"white"} textTransform={"capitalize"}>{item.name}         ( {item.mproficiency}) </Text>
             <Text fontSize={"16px"} textAlign={"center"}> Email : {item.email}</Text>
             <Text fontSize={"14"} textAlign={"center"} >Studies : {item.qualification}</Text>
             <Text fontSize={"14"} textAlign={"center"} >Rating : {item.rating}</Text>
-            <Button marginLeft={"50px"} marginTop={"8px"} className="btn" onClick={()=>{
+            <Button marginLeft={"45%"} marginTop={"8px"} className="btn" onClick={()=>{
                setData(item);
                 handelinfopage(item);
 
