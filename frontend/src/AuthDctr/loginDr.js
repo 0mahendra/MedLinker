@@ -16,9 +16,9 @@ const LoginDr = ()=>{
     setLoading(true);
     if( !email|| !password ){
        toast({
-           title:"please fill all the details!",
+           title:"Please Fill all details !",
            status:"warning",
-           duration:5000,
+           duration:2000,
            isClosable:true,
            position:"bottom",
 
@@ -46,10 +46,10 @@ const LoginDr = ()=>{
            position:"bottom",
 
        });
-       localStorage.setItem("userInfo",JSON.stringify(data));
+       localStorage.setItem("dctrInfo",JSON.stringify(data));
 
        setLoading(false);
-       history.push("/");
+       history.push("/maind");
 
     }
     catch(error){
@@ -78,6 +78,7 @@ const LoginDr = ()=>{
     <FormControl id='password' isRequired>
         <FormLabel>Password</FormLabel>
         <Input
+           type="password"
             placeholder="Enter Your password"
             onChange={(e)=>setPassword(e.target.value)}
         />
@@ -85,11 +86,10 @@ const LoginDr = ()=>{
     </FormControl>
 
 
+
     <Button
-    
-    bgColor={"rgb(28, 112, 112)"}
-    borderRadius={"1px"} 
-    margin marginTop={"8px" } 
+     marginTop={"30px"}
+    className="btn"
     onClick={submitHandler}>Submit</Button>
     </VStack>
            
