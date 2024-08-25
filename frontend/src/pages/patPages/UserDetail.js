@@ -193,11 +193,12 @@ const UserDetails = ({user ,dctrData})=>{
    
      
     <Button
+        marginTop={"5%"}
         className="btn"
        
        onClick={submitHandler}
       >
-        Click Me
+        Submit Detail's
       </Button>
       <style jsx>{`
         @keyframes sparkle {

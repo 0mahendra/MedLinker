@@ -48,9 +48,9 @@ const Preports=()=>{
                 }
         
         toast({
-            title:"! suceess",
-            status:"warning",
-            duration:5000,
+            title:" wait report are uploading ",
+            status:"success",
+            duration:500,
             isClosable:true,
             position:"bottom",
 
@@ -58,9 +58,9 @@ const Preports=()=>{
        
     }else{
         toast({
-            title:"! not uploaded by doctor",
+            title:"Oops !  not uploaded by doctor",
             status:"warning",
-            duration:5000,
+            duration:3000,
             isClosable:true,
             position:"bottom",
 

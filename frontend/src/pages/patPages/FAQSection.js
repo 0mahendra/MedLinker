@@ -8,6 +8,9 @@ const FAQSection = () => {
   const dctr = ()=>{
     history.push("/Dtrgtn");
   }
+  const home = ()=>{
+    history.push("/");
+  }
 
   const pst = ()=>{
     history.push("/Ptrgtn");
@@ -119,7 +122,7 @@ const FAQSection = () => {
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-yellow-500 rounded-full" viewBox="0 0 24 24">
         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
       </svg>
-      <span class="ml-3 text-4xl">Medlinker</span>
+      <span class="ml-3 text-4xl hover:cursor-pointer" onClick={home}>Medlinker</span>
     </a>
     <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
       <a class="mr-5 hover:text-gray-900 cursor-pointer" onClick={Features} >Features</a>

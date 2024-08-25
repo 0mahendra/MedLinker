@@ -100,7 +100,7 @@ const FindDctr = ()=>{
             <Text fontSize={"16px"} textAlign={"center"}> Email : {item.email}</Text>
             <Text fontSize={"14"} textAlign={"center"} >Studies : {item.qualification}</Text>
             <Text fontSize={"14"} textAlign={"center"} >Rating : {item.rating}</Text>
-            <Button marginLeft={"50px"} marginTop={"8px"} className="btn" onClick={()=>{
+            <Button marginLeft={"45%"} marginTop={"8px"} className="btn" onClick={()=>{
                setData(item);
                 handelinfopage(item);
 

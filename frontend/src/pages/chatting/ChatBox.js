@@ -16,7 +16,8 @@ var socket  = io.connect(ENDPOINT);
 var selectedChatCompare;
 
 const ChatBox = () => {
-
+  
+  const boxRef = useRef(null);
   const location = useLocation();
   const { loggedUser } = location.state;
   console.log(loggedUser);
@@ -26,11 +27,11 @@ const ChatBox = () => {
 
   
   
-  const[loading ,setLoading] = useState(false);
+  const[loading ,setLoading] = useState(true);
   const[chatId,setChatId] = useState();
  
-  const [showFirst, setShowFirst] = useState(true);
-  const [data ,setData] =useState();
+  const [showFirst, setShowFirst] = useState(false);
+  // const [data ,setData] =useState();
   const [newmsg ,setNewmsg] = useState();
   const [psValue,setPsValue] = useState("enter your message");
 
@@ -53,9 +54,10 @@ const ChatBox = () => {
 
   // console.log(user);     
   useEffect(() => {
-      fetchMessages(chatId1);         
+        fetchMessages(chatId1);       
     const timer = setTimeout(() => {
       setShowFirst(false); 
+      setLoading(false);
     }, 1000);
 
    
@@ -126,13 +128,23 @@ const ChatBox = () => {
           // console.log(newsMessages);
           setSendmessages(sendmessages => [...sendmessages, ...newsMessages]);
         
-        // console.log(response.data); // Update state with fetched messages
-        // setReversedEntries(Array.from(response.data.entries()).reverse());
+        
       
       } catch (error) {
         console.error('Error fetching messages:', error);
       }
     };
+
+   
+
+    const scrollToBottom = () => {
+      if (boxRef.current) {
+        boxRef.current.scrollTop = boxRef.current.scrollHeight;
+      }
+    };
+    useEffect(() => {
+      scrollToBottom();
+    }, []);
 
     const handleKeyDown = (event) => {
       if (event.key === 'Enter') {
@@ -141,7 +153,6 @@ const ChatBox = () => {
         setPsValue('enter the new msg');
       }
     };
-   
 
 
  
@@ -163,12 +174,12 @@ const ChatBox = () => {
           width: "0px" 
 }}} borderRadius={"10px"} alignItems={"center"} justifyContent={"center"}  >
       
-      <Text fontWeight="bold" mb={2} textAlign={"center"} fontFamily={"Work sans"} borderBottomWidth={"2px"} fontSize={"30px"}>{loggedUser.nameD}</Text>
+      <Text fontWeight="bold" mb={2} textAlign={"center"} fontFamily={"Work sans"} borderBottomWidth={"2px"} fontSize={"30px"}>{loggedUser.name}</Text>
       <VStack align="flex-start" spacing={10}>
        
 
         {loading ?(
-          <Box height={"100vh"} width={"100%"} display={"flex"} alignItems={"center"}  bgColor={"red"} flexDirection={"column"}>
+          <Box height={"100vh"} width={"98%"} display={"flex"} alignItems={"center"}  bgColor={"white"} flexDirection={"column"}>
               <Spinner
                 size={"xl"}
                 w={20}
@@ -273,12 +284,12 @@ const ChatBox = () => {
           width: "0px"  // Hide the scrollbar
         }
       }} borderRadius={"10px"} alignItems={"center"} justifyContent={"center"}  bgColor={'lightblue'} >
-      <Text borderBottomWidth={"2px"} fontWeight="bold" mb={2} textAlign={"center"} fontSize={"30px"}>{loggedUser.nameP}</Text>
+      <Text borderBottomWidth={"2px"} fontWeight="bold" mb={2} textAlign={"center"} fontSize={"30px"}>{loggedUser.name}</Text>
       <VStack align="flex-start" spacing={2}>
        
 
         {loading ?(
-          <Box height={"100vh"} width={"100%"} display={"flex"} alignItems={"center"}  bgColor={"red"} flexDirection={"column"}>
+          <Box height={"100vh"} width={"98%"} display={"flex"} alignItems={"center"}  bgColor={"white"} flexDirection={"column"}>
               <Spinner
                 size={"xl"}
                 w={20}
@@ -293,7 +304,7 @@ const ChatBox = () => {
 
             ):(
               <Box height={"89vh"} width={"100%"} display={"flex"}   flexDirection={"column"}>
-      <Box overflowY={"auto"}height={"90vh"}  flex={"1"} display={"flex"}  flexDirection={"column"}  bgColor={'#342d38'}>{/* Make the message container scrollable */}
+      <Box  ref={boxRef} overflowY={"auto"} height={"90vh"}  flex={"1"} display={"flex"}  flexDirection={"column"}  bgColor={'#342d38'}>{/* Make the message container scrollable */}
         {messages.map((message,i) => (
           sendmessages[i] === "doctor" ? (
             <Box>

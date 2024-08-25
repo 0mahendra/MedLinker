@@ -6,6 +6,7 @@ import MediAi from "./ourAi/MediAi";
 import { Text } from "@chakra-ui/react";
 import axios from "axios";
 import SideDrawerp from "../chatting/SideDrawerp";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
 
@@ -13,12 +14,21 @@ import SideDrawerp from "../chatting/SideDrawerp";
 
 
 const Mainp = () => {
+    const history = useHistory();
+
        
   const user1 = localStorage.getItem("userInfo");
   const user = JSON.parse(user1);
     // console.log("this is colsole page",user);
    const patientId = user._id;
     const [time, setTime] = useState(new Date());
+
+    const Report = ()=>{
+          history.push("/MainReportp");
+    }
+    const AddDctr = ()=>{
+      history.push("/pfindDctr");
+    }
 
 
 
@@ -50,7 +60,7 @@ const Mainp = () => {
       <Box width={"80%"}  display={"flex"} flexDirection={"column"} alignItems={"center"}>
         <Box width={"100%"} height={"15vh"} display={"flex"} justifyContent={"space-between"} alignItems={"center"} flexDirection={"row"}  >
         <Text   textAlign={"left"} marginLeft={"3%"} color={"white"}  textTransform={"capitalize"} fontSize={"35px"} fontStyle={"oblique"} fontWeight={"700"}> MedLinker</Text>
-        <Button className="btn" marginRight={"4%"} > + Add Doctor</Button>
+        <Button className="btn" marginRight={"4%"} onClick={AddDctr}> + Add Doctor</Button>
 
         </Box>  
         <Box   width={"90%"} height={"25vh"} borderRadius={"30px"} display={"flex"} justifyContent={"space-between"} alignItems={"center"} flexDirection={"row"} bgColor={"#3484d9"} >
@@ -67,14 +77,51 @@ const Mainp = () => {
       <Box display={"flex"} flexDirection={"column"} width={"90%"} marginTop={"5%"} >
        <Text textAlign={"left"} fontSize={"35px"} textTransform={"capitalize"} fontWeight={"800"} color={"white"}>Your personalize Report's </Text> 
         <Box display={"flex"} flexDirection={"row"} justifyContent={"flex-start"} marginTop={"2%"}>
-         <Button margin={"1%"} width={"20vh"} height={"25vh"} display={"flex"} justifyContent={"center"} alignItems={"center"}  backgroundImage="url(https://as1.ftcdn.net/v2/jpg/02/01/85/72/500_F_201857296_cBMHRtLaHBQVomr8UGJftVQDgiMPkN8D.jpg)" backgroundSize="cover"
-      backgroundPosition="center"></Button>
-         <Button margin={"1%"}  width={"20vh"} height={"25vh"} display={"flex"} justifyContent={"center"} alignItems={"center"}  backgroundImage="url(https://as1.ftcdn.net/v2/jpg/02/01/85/72/500_F_201857296_cBMHRtLaHBQVomr8UGJftVQDgiMPkN8D.jpg)" backgroundSize="cover"
-      backgroundPosition="center"></Button>
-         <Button margin={"1%"}  width={"20vh"} height={"25vh"} display={"flex"} justifyContent={"center"} alignItems={"center"}  backgroundImage="url(https://as1.ftcdn.net/v2/jpg/02/01/85/72/500_F_201857296_cBMHRtLaHBQVomr8UGJftVQDgiMPkN8D.jpg)" backgroundSize="cover"
-      backgroundPosition="center"></Button>
-         <Button margin={"1%"}  width={"20vh"} height={"25vh"} display={"flex"} justifyContent={"center"} alignItems={"center"}  backgroundImage="url(https://as1.ftcdn.net/v2/jpg/02/01/85/72/500_F_201857296_cBMHRtLaHBQVomr8UGJftVQDgiMPkN8D.jpg)" backgroundSize="cover"
-      backgroundPosition="center" ></Button>
+        <Button margin={"1%"} height="25vh" width="20vh" flexDirection="column" justifyContent="flex-end" padding={0}  bg="white" _hover={{ bg: "gray.200" }} onClick={Report}>
+          <Image
+            src="https://cdn-icons-png.flaticon.com/512/5903/5903616.png" 
+            height="20vh"
+            width="20vh"
+            objectFit="cover"
+          />
+          <Text marginTop="auto" paddingBottom="4px">
+            health
+          </Text>
+        </Button>
+        <Button margin={"1%"} height="25vh" width="20vh" flexDirection="column" justifyContent="flex-end" padding={0}  bg="white" _hover={{ bg: "gray.200" }} onClick={Report}>
+          <Image
+            src="https://cdni.iconscout.com/illustration/premium/thumb/online-medical-health-checkup-report-5588764-4655033.png?f=webp" 
+            height="20vh"
+            width="20vh"
+            objectFit="cover"
+          />
+          <Text marginTop="auto" paddingBottom="4px">
+            BP test
+          </Text>
+        </Button>
+        <Button margin={"1%"} height="25vh" width="20vh" flexDirection="column" justifyContent="flex-end" padding={0}  bg="white" _hover={{ bg: "gray.200" }} onClick={Report}>
+          <Image
+            src="https://cdni.iconscout.com/illustration/premium/thumb/consult-with-doctor-online-for-prescription-5588761-4655030.png?f=webp" 
+            height="20vh"
+            width="20vh"
+            objectFit="cover"
+          />
+          <Text marginTop="auto" paddingBottom="4px">
+            test
+          </Text>
+        </Button>
+        <Button margin={"1%"} height="25vh" width="20vh" flexDirection="column" justifyContent="flex-end" padding={0}  bg="white" _hover={{ bg: "gray.200" }} onClick={Report}>
+          <Image
+            src="https://cdni.iconscout.com/illustration/premium/thumb/medical-insurance-payment-5588751-4655020.png?f=webp" 
+            height="20vh"
+            width="20vh"
+            objectFit="cover"
+          />
+          <Text marginTop="auto" paddingBottom="4px">
+            urine test
+          </Text>
+        </Button>
+      
         </Box>
       </Box>  
       </Box>

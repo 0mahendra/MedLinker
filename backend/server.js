@@ -10,12 +10,15 @@ const medRoutes = require("./Routes/medRoutes");
 const chatRotues =require("./Routes/chatRoutes");
 const messageRoutes = require("./Routes/messageRoutes");
 const reportRoutes = require("./Routes/reportRoutes");
+const sendMailRoutes = require("./Routes/sendMailRoutes");
 dotenv.config();
 
 
 connectDB();
 
 const app  = express();
+
+const PORT = process.env.PORT;
 
 app.use(express.json());
 app.get("/" ,(req,res)=>{
@@ -28,6 +31,7 @@ app.use("/api/med",medRoutes);
 app.use("/api/chats" , chatRotues);
 app.use("/api/messages",messageRoutes);
 app.use("/api/report",reportRoutes);
+app.use("/api/sendMail" , sendMailRoutes);
 
 
 const server  = app.listen(5000,console.log("api is listening at port  = 5000"));
