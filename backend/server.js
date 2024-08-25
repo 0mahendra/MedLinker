@@ -34,7 +34,7 @@ app.use("/api/report",reportRoutes);
 app.use("/api/sendMail" , sendMailRoutes);
 
 
-const server  = app.listen(5000,console.log("api is listening at port  = 5000"));
+const server  = app.listen(PORT,console.log(`api is listening at port  = ${PORT}`));
 
 
 const io = require("socket.io")(server, {
