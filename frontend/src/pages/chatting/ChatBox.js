@@ -11,7 +11,7 @@ import ScrollableFeed from "react-scrollable-feed"
 // import { response } from 'express';
 import io from "socket.io-client";
 
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://medlinker.onrender.com/";
 var socket  = io.connect(ENDPOINT);
 var selectedChatCompare;
 
