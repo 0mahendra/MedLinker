@@ -5,7 +5,7 @@ import { Avatar, Box, Button, FormControl, FormLabel, Image, Input, Menu, MenuBu
 import axios from "axios";
 import ChatLoading from "../chatting/ChatLoading";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { set } from "mongoose";
+// import { set } from "mongoose";
 let patientId =null;
 const Reportd = ()=>{
     const toast = useToast();
