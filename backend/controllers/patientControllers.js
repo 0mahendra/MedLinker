@@ -1,29 +1,15 @@
 const asyncHandler = require("express-async-handler");
 // const User = require("../Models/userModel");
 
-const generateToken = require("../config/generateToken");
+const {protect , generateToken} = require("../middleware/authMiddleware");
 const Patient = require("../Models/userModel");
 
 
-const allPatient = asyncHandler(async (req, res) => {
-  const keyword = req.query.search
-    ? {
-        $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
-        ],
-      }
-    : {};
 
-  const users = await Patient.find(keyword).find({ _id: { $ne: req.user._id } });
-  res.send(users);
-});
 
-//@description     Register new user
-//@route           POST /api/user/
-//@access          Public
+
 const registerPatient = asyncHandler(async (req, res) => {
-    // console.log("yes it is callled");
+ 
   const { name, email,phnumber,age,sex,password, pic } = req.body;
 
   if (!name || !email || !password ) {
@@ -47,8 +33,12 @@ const registerPatient = asyncHandler(async (req, res) => {
     password,
     pic,
   });
-  // console.log(user);
 
+  const payload = {
+    id:user.id
+  }
+   const token = generateToken(payload);
+  
   if (user) {
     res.status(201).json({
       _id: user._id,
@@ -58,7 +48,7 @@ const registerPatient = asyncHandler(async (req, res) => {
       sex:user.sex,
       isAdmin: user.isAdmin,
       pic: user.pic,
-      token: generateToken(user._id),
+      token: token,
     });
   } else {
     res.status(400);
@@ -66,9 +56,7 @@ const registerPatient = asyncHandler(async (req, res) => {
   }
 });
 
-//@description     Auth the user
-//@route           POST /api/users/login
-//@access          Public
+
 const authPatient = asyncHandler(async (req, res) => {
   // console.log("request aa gyii ");
   const { email, password } = req.body;
@@ -77,6 +65,10 @@ const authPatient = asyncHandler(async (req, res) => {
   // console.log(user);
 
   if (user && (await user.matchPassword(password))) {
+    const payload = {
+      id:user.id
+    }
+     const token = generateToken(payload);
     res.json({
       _id: user._id,
       name: user.name,
@@ -84,7 +76,7 @@ const authPatient = asyncHandler(async (req, res) => {
       phnumber:user.phnumber,
       isAdmin: user.isAdmin,
       pic: user.pic,
-      token: generateToken(user._id),
+      token: token,
     });
   } else {
     res.status(401);
@@ -140,5 +132,5 @@ const authDctrPatient = asyncHandler(async (req, res) => {
   });
 
 
-module.exports = { allPatient, registerPatient,authDctrPatient, authPatient ,getInfo};
+module.exports = {  registerPatient,authDctrPatient, authPatient ,getInfo};
 // install npm i express-async-handler 
