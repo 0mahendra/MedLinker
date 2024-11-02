@@ -1,21 +1,12 @@
 
 import React, { useEffect, useState } from "react";
 
-
-
 import { Avatar, Box, Button, Tooltip,Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text } from "@chakra-ui/react";
-// import { DataState } from "../../context/DataProvider";
-import ProfileModal from "./ProfileModal";
-import { ChevronDownIcon } from "@chakra-ui/icons";
-
-
-
-
 
 
 
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-// import MianReportp from "./Preport/MainReportPage";
+
 
 
 const Navbarp = ()=>{
@@ -32,6 +23,7 @@ let sender = "patient";
 
   const logoutHandler = ()=>{
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("token"); 
     history.push("/");
   }
 

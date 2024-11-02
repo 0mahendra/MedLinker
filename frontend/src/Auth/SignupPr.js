@@ -103,11 +103,12 @@ const postDetails=(pics)=>{
            return;
         }
         try{
-         const config = {
-           header:{
-               "Content-type":"application/json",
-           },
-         };
+            const config = {
+                headers: {
+                  "Content-Type": "application/json",
+                
+                },
+              };
          const {data} = await axios.post(
            "/api/patient",
            {name,email,phnumber,age,sex,password,pic},
@@ -115,13 +116,14 @@ const postDetails=(pics)=>{
            ); 
            toast({
                title:"Registration Successful",
-               status:"warning",
-               duration:5000,
+               status:"success",
+               duration:3000,
                isClosable:true,
                position:"bottom",
    
            });
            localStorage.setItem("userInfo",JSON.stringify(data));
+           localStorage.setItem("token", data.token); 
    
            setLoading(false);
            history.push("/pHome")

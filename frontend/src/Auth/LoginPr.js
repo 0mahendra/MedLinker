@@ -19,9 +19,9 @@ const LoginPr = ()=>{
     setLoading(true);
     if( !email|| !password ){
        toast({
-           title:"sarri field fill karo yrr!",
+           title:"Please fill all the fields!",
            status:"warning",
-           duration:5000,
+           duration:3000,
            isClosable:true,
            position:"bottom",
 
@@ -31,11 +31,12 @@ const LoginPr = ()=>{
     }
    
     try{
-     const config = {
-       header:{
-           "Content-type":"application/json",
-       },
-     };
+        const config = {
+            headers: {
+              "Content-Type": "application/json", 
+             
+            },
+          };
      const {data} = await axios.post(
        "/api/patient/login",
        {email,password},
@@ -43,14 +44,15 @@ const LoginPr = ()=>{
        ); 
        toast({
            title:"Registration Successful",
-           status:"warning",
-           duration:5000,
+           status:"success",
+           duration:3000,
            isClosable:true,
            position:"bottom",
 
        });
        localStorage.setItem("userInfo",JSON.stringify(data));
         data2 = data;
+        localStorage.setItem("token", data.token); 
 
        setLoading(false);
        history.push("/pHome");
@@ -60,7 +62,7 @@ const LoginPr = ()=>{
        toast({
            title:"error occured",
            status:"error",
-           duration:5000,
+           duration:3000,
            isClosable:true,
            position:"bottom",
 

@@ -10,6 +10,7 @@ const SideDrawerp = ({sender})=>{
     const [chats, setChats] = useState([]);
     const userId = user._id;
     const usertype = sender;
+    const token =localStorage.getItem("token");
 
     // const sendDataToParent = () => {
     //   const data = true;
@@ -19,7 +20,13 @@ const SideDrawerp = ({sender})=>{
     const fetchChatsForUser = async () => {
         try {
           // console.log("this is user id" ,userId);
-          const response = await axios.post('/api/chats/fetch',{userId, usertype});
+          const config = {
+            headers: {
+              "Content-Type": "application/json", 
+              Authorization: `Bearer ${token}`, 
+            },
+          };
+          const response = await axios.post('/api/chats/fetch',{userId, usertype},config);
           return response.data; // Return the array of chats
           // console.log(data);
           console.log(response.data);

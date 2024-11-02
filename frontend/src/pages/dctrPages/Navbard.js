@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Box, Button, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text,Tooltip } from "@chakra-ui/react";
 // import { DataState } from "../../context/DataProvider";
-import ProfileModal from  "../patPages/ProfileModal";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+
 
 
 
@@ -23,6 +22,7 @@ let sender = "doctor";
 
   const logoutHandler = ()=>{
     localStorage.removeItem("dctrInfo");
+    localStorage.removeItem("token"); 
     history.push("/");
   }
 

@@ -37,8 +37,5 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-const generateToken = (id)=>{
-      return jwt.sign(id , process.env.JWT_SECRET,{expiresIn:"30d"});
-}
 
-module.exports = { protect  ,generateToken};
+module.exports = { protect};

@@ -9,7 +9,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 let patientId =null;
 const Reportd = ()=>{
     const toast = useToast();
-    
+    const token = localStorage.getItem("token");
     const [search ,setSearch] = useState();
     const [showFirst, setShowFirst] = useState(false);
     const [searchResult, setSearchResult] =useState();
@@ -33,7 +33,7 @@ const Reportd = ()=>{
                 toast({
                     title:"! Please tpye the username",
                     status:"warning",
-                    duration:5000,
+                    duration:3000,
                     isClosable:true,
                     position:"bottom",
         
@@ -43,11 +43,12 @@ const Reportd = ()=>{
         }
 
         try{
-            const config = {
-              header:{
-                  "Content-type":"application/json",
-              },
-            };
+          const config = {
+            headers: {
+              "Content-Type": "application/json", 
+              Authorization: `Bearer ${token}`, 
+            },
+          };
             const {data} = await axios.post(
               "/api/patient/login/dctr",
               {search},
@@ -58,8 +59,8 @@ const Reportd = ()=>{
           
               toast({
                   title:"Retrive Successful",
-                  status:"warning",
-                  duration:5000,
+                  status:"success",
+                  duration:2000,
                   isClosable:true,
                   position:"bottom",
        
@@ -72,18 +73,13 @@ const Reportd = ()=>{
               toast({
                   title:"error occured",
                   status:"error",
-                  duration:5000,
+                  duration:3000,
                   isClosable:true,
                   position:"bottom",
        
               });
             //   setLoading(false);
            }
-        
-        //    const timer = setTimeout(() => {
-        //     setShowFirst(true); 
-        //   }, 2000);
-        //   timer();
           
           setShowFirst(true);
 
@@ -97,9 +93,15 @@ const Reportd = ()=>{
             return;
         }
         try{
+          const config = {
+            headers: {
+              "Content-Type": "application/json", 
+              Authorization: `Bearer ${token}`, 
+            },
+          };
             const {userReport} = await axios.post(
                 "/api/report",
-                {userId},
+                {userId},config
                 ); 
                 // console.log(userReport);
               
@@ -107,27 +109,20 @@ const Reportd = ()=>{
                 
                 toast({
                     title:"Report created succesfully",
-                    status:"warning",
-                    duration:5000,
+                    status:"success",
+                    duration:2000,
                     isClosable:true,
                     position:"bottom",
          
                 });
                  
-                console.log(userId);
                 patientId = userId;
-                console.log("theis is patient id" ,patientId);
-                
-           
-               
-           
-
 
         }catch(error){
             toast({
                 title:"error occured",
                 status:"error",
-                duration:5000,
+                duration:3000,
                 isClosable:true,
                 position:"bottom",
      
@@ -140,9 +135,9 @@ const Reportd = ()=>{
         
         if(pics == undefined){
             toast({
-                title:"please select an imaghe!",
+                title:"please select an image!",
                 status:"warning",
-                duration:5000,
+                duration:3000,
                 isClosable:true,
                 position:"bottom",
 
@@ -161,27 +156,7 @@ const Reportd = ()=>{
             }).then((res)=>res.json())
               .then((data)=>{
                 setPic(data.url.toString());
-                // console.log(data.url.toString());
-                // setLoading(false);
-
-                // if(sender =="registration"){
-                //     setRegisfrom(data.url.toString());
-                // }
-                // if(sender =="BloodReport"){
-                //     setBpreport(data.url.toString());
-                // }
-                // if(sender =="UrineReport"){
-                //     setUreport(data.url.toString());
-                // }
-                // if(sender =="Xreport"){
-                //     setXreport(data.url.toString());
-                // }
-                // if(sender =="ECGReport"){
-                //     setEreport(data.url.toString());
-                // }
-                // if(sender =="MRIReport"){
-                //     setMreport(data.url.toString());
-                // }
+            
               })
               .catch((err)=>{
                 console.log(err);
@@ -193,7 +168,7 @@ const Reportd = ()=>{
             toast({
                 title:"please select an file!",
                 status:"warning",
-                duration:5000,
+                duration:3000,
                 isClosable:true,
                 position:"bottom",
 
@@ -205,14 +180,25 @@ const Reportd = ()=>{
       }
     const HandlePost = async(sender)=>{
         if(!pic)return;
-        console.log(patientId);
-        console.log("this is the sender " ,sender);
-        console.log("this is pic",)
-        const {data} = await axios.post("/api/report/update",{patientId,pic,sender},);
+         
+        try{
+          const config = {
+            headers: {
+              "Content-Type": "application/json", 
+              Authorization: `Bearer ${token}`, 
+            },
+
+          };
+
+          const {data} = await axios.post("/api/report/update",{patientId,pic,sender},config);
+        }catch(err){
+           alert(err);
+        }
+        
         toast({
             title:"! suceess",
-            status:"warning",
-            duration:5000,
+            status:"success",
+            duration:3000,
             isClosable:true,
             position:"bottom",
 
@@ -222,13 +208,16 @@ const Reportd = ()=>{
 
     const HandleGet = async (sender)=>{
     
-        console.log(patientId);
-        console.log("this is the sender " ,sender);
-        console.log("this is pic",patientId)
-        const {data} = await axios.post("/api/report/view",{patientId,sender},);
-        console.log(data);
+        try{
+          const config = {
+            headers: {
+              "Content-Type": "application/json", 
+              Authorization: `Bearer ${token}`, 
+            },
 
-               if(sender =="registration"){
+          };
+          const {data} = await axios.post("/api/report/view",{patientId,sender},config);
+            if(sender =="registration"){
                     setPic2(data.Rreport);
                 }
                 if(sender =="BloodReport"){
@@ -247,17 +236,17 @@ const Reportd = ()=>{
                     setPic2(data.MRIreport);
                 }
         
-        toast({
-            title:"! suceess",
-            status:"warning",
-            duration:5000,
-            isClosable:true,
-            position:"bottom",
-
-        });
-
-
-        
+                toast({
+                  title:"! suceess",
+                  status:"warning",
+                  duration:5000,
+                  isClosable:true,
+                  position:"bottom",
+      
+              });
+        }catch(err){
+          alert(err);
+        }
     }
     
 

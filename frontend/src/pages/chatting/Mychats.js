@@ -9,6 +9,8 @@ const Mychats = ({chat}) => {
     const [messages, setMessages] = useState([]);
     let data1;
     const[chaton ,setChaton] = useState(false);
+    const token = localStorage.getItem("token");
+    console.log(token);
 
     let sender = localStorage.getItem("sender");
     // let dctrData = localStorage.getItem("dctrInfo");
@@ -30,11 +32,12 @@ const Mychats = ({chat}) => {
         
         
         try {
-            const config = {
-                headers: {
-                    "Content-type": "application/json",
-                },
-            };
+          const config = {
+            headers: {
+              "Content-Type": "application/json", 
+              Authorization: `Bearer ${token}`, 
+            },
+          };
             // console.log(patientId.patientId);
             let data;
     if (sender === "patient") {
@@ -43,17 +46,13 @@ const Mychats = ({chat}) => {
     } else {
       const response = await axios.post(`/api/patient/getInfo/${userId}`, config);
       data = response.data;
+      console.log(response);
     }
-            //  console.log(data);
+             console.log(data);
             
                 setLoggedUser(data);
                 data1 = data;
                 console.log(data1);
-            
-          
-            // setLoading(false);
-            //   history.push("/");
-            // console.log(data1.nameP);
         } catch (error) {
             toast({
                 title: "Error occurred",
@@ -80,8 +79,14 @@ const Mychats = ({chat}) => {
 
     // console.log(chatId);
      try{
+      const config = {
+        headers: {
+          "Content-Type": "application/json", 
+          Authorization: `Bearer ${token}`, 
+        },
+      };
          
-        const messages = await axios.post(`/api/messages/chatId/send`, {chatId,sender,content});
+        const messages = await axios.post(`/api/messages/chatId/send`, {chatId,sender,content}, config);
         // const data = await messages
         // console.log();
       

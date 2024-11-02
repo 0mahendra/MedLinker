@@ -3,35 +3,23 @@ const mongoose = require('mongoose');
 // Define the chat schema
 const chatSchema = new mongoose.Schema({
   doctorId: {
-    type:"String",
+    type: String, // Use String without quotes for the type
     required: true
   },
   patientId: {
-    type: "String", // Reference to the Patient model
+    type: String, // Use String without quotes for the type
     required: true
   },
   userId: {
-    type: "String", // Reference to the Patient model
+    type: String, // Use String without quotes for the type
     required: true
-  },
-  messages: [{
-    sender: {
-      type: String,
-      enum: ['Dctr', 'patient'], // Sender can be either doctor or patient
-      required: true
-    },
-    content: {
-      type: String,
-      required: true
-    },
-    timestamp: {
-      type: Date,
-      default: Date.now
-    }
-  }]
+  }
+}, {
+  timestamps: true, // Corrected the typo from 'timestaps' to 'timestamps'
 });
 
 // Create the Chat model
 const Chat = mongoose.model('Chat', chatSchema);
 
 module.exports = Chat;
+

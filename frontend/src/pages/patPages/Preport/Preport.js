@@ -7,7 +7,7 @@ import Navbarp from "../Navbarp";
 import MianReportp from "./MainReportPage";
 import axios from "axios";
 const Preports=()=>{
-
+    const token = localStorage.getItem("token");
     const data = JSON.parse(localStorage.getItem("userInfo"));
       console.log(data);
       let patientId = data._id;
@@ -21,54 +21,64 @@ const Preports=()=>{
 
     const HandleGet = async (sender)=>{
     
-        console.log(patientId);
-        console.log("this is the sender " ,sender);
-        console.log("this is pic",patientId)
-        const {data} = await axios.post("/api/report/view",{patientId,sender},);
-        console.log(data);
+        try{
+            const config = {
+                headers: {
+                  "Content-Type": "application/json", 
+                  Authorization: `Bearer ${token}`, 
+                },
+    
+              };
+              const {data} = await axios.post("/api/report/view",{patientId,sender},config);
+              
              if(data){
 
-               if(sender =="registration"  && data.Rreport ){
-                    setPic2(data.Rreport);
-                }
-                if(sender =="BloodReport" && data.Bpreport ){
-                    setPic2(data.Bpreport);
-                }
-                if(sender =="UrineReport" && data.Ureport){
-                    setPic2(data.Ureport);
-                }
-                if(sender =="Xreport" && data.Xreport){
-                    setPic2(data.Xreport);
-                }
-                if(sender =="ECGReport" && data.ECGreport){
-                    setPic2(data.ECGreport);
-                }
-                if(sender =="MRIReport" && data.MRIreport){
-                    setPic2(data.MRIreport);
-                }
-        
-        toast({
-            title:" wait report are uploading ",
-            status:"success",
-            duration:500,
-            isClosable:true,
-            position:"bottom",
+                if(sender =="registration"  && data.Rreport ){
+                     setPic2(data.Rreport);
+                 }
+                 if(sender =="BloodReport" && data.Bpreport ){
+                     setPic2(data.Bpreport);
+                 }
+                 if(sender =="UrineReport" && data.Ureport){
+                     setPic2(data.Ureport);
+                 }
+                 if(sender =="Xreport" && data.Xreport){
+                     setPic2(data.Xreport);
+                 }
+                 if(sender =="ECGReport" && data.ECGreport){
+                     setPic2(data.ECGreport);
+                 }
+                 if(sender =="MRIReport" && data.MRIreport){
+                     setPic2(data.MRIreport);
+                 }
 
-        });
-       
-    }else{
-        toast({
-            title:"Oops !  not uploaded by doctor",
-            status:"warning",
-            duration:3000,
-            isClosable:true,
-            position:"bottom",
-
-        });
-    }
-
+         
+         toast({
+             title:" wait report are uploading ",
+             status:"success",
+             duration:500,
+             isClosable:true,
+             position:"bottom",
+ 
+         });
 
         
+        
+     }else{
+         toast({
+             title:"Oops !  not uploaded by doctor",
+             status:"warning",
+             duration:3000,
+             isClosable:true,
+             position:"bottom",
+ 
+         });
+        }
+
+        }
+        catch(err){
+           alert(err);
+        }    
     }
 
     return(

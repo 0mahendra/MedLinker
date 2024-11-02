@@ -1,7 +1,5 @@
 const asyncHandler = require("express-async-handler");
-// const User = require("../Models/userModel");
-
-const {protect , generateToken} = require("../middleware/authMiddleware");
+const generateToken = require("../config/generateToken");
 const Patient = require("../Models/userModel");
 
 
@@ -34,10 +32,8 @@ const registerPatient = asyncHandler(async (req, res) => {
     pic,
   });
 
-  const payload = {
-    id:user.id
-  }
-   const token = generateToken(payload);
+ 
+   
   
   if (user) {
     res.status(201).json({
@@ -46,9 +42,8 @@ const registerPatient = asyncHandler(async (req, res) => {
       email: user.email,
       age:user.age,
       sex:user.sex,
-      isAdmin: user.isAdmin,
       pic: user.pic,
-      token: token,
+      token:generateToken(user.id),
     });
   } else {
     res.status(400);
@@ -65,18 +60,14 @@ const authPatient = asyncHandler(async (req, res) => {
   // console.log(user);
 
   if (user && (await user.matchPassword(password))) {
-    const payload = {
-      id:user.id
-    }
-     const token = generateToken(payload);
+   
     res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
       phnumber:user.phnumber,
-      isAdmin: user.isAdmin,
       pic: user.pic,
-      token: token,
+      token: generateToken(user.id),
     });
   } else {
     res.status(401);
@@ -85,15 +76,13 @@ const authPatient = asyncHandler(async (req, res) => {
 });
 
 const authDctrPatient = asyncHandler(async (req, res) => {
-  // console.log("request aa gyii  authDctr");
+  
   const { search} = req.body;
   // console.log(search);
   let email = 'Guest@gmail.com';
   
   try{
     const user = await Patient.find({name : search});
-    // console.log(user);
-  
     if(user){
     res.json(user);
   }else{
@@ -101,7 +90,9 @@ const authDctrPatient = asyncHandler(async (req, res) => {
   }
 
   }catch(err){
+         
          console.log(err);
+         res.status(402).json("error");
   }
   });
 
@@ -121,9 +112,7 @@ const authDctrPatient = asyncHandler(async (req, res) => {
         name: user.name,
         email: user.email,
         phnumber:user.phnumber,
-        isAdmin: user.isAdmin,
         pic: user.pic,
-        token: generateToken(user._id),
       });
     } else {
       res.status(401);

@@ -1,180 +1,86 @@
 const asyncHandler = require("express-async-handler");
 const Report = require("../Models/ReportModel");
 
+// Utility function to handle the update operation
+const updateReportField = async (filter, field, pic) => {
+  const updateOperation = {
+    $set: {
+      [field]: pic,
+    },
+  };
+  return await Report.findOneAndUpdate(filter, updateOperation);
+};
+
 const registerReport = asyncHandler(async (req, res) => {
-    // console.log("yes it is callled");
   const { userId } = req.body;
 
-  if (!userId ) {
-    res.status(400);
-    throw new Error("enter the user id");
+  if (!userId) {
+    return res.status(400).json({ message: "Enter the user ID" });
   }
-   
-  const userExists = await Report.findOne({ userId});
+
+  const userExists = await Report.findOne({ userId });
 
   if (userExists) {
-       res.json(userExists);
-  }
-  else{
-  const user = await Report.create({
-    userId,
-  });
-//   console.log(user);
-
-  if (user) {
-    res.status(201).json({
-      userId:userId,
-    });
-
+    return res.json(userExists);
   } else {
-    res.status(400);
-    throw new Error("Unable to create");
-  }
+    const user = await Report.create({ userId });
 
-}
+    if (user) {
+      return res.status(201).json({ userId: userId });
+    } else {
+      return res.status(400).json({ message: "Unable to create" });
+    }
+  }
 });
 
 const updateReport = asyncHandler(async (req, res) => {
-    // console.log("yes it is callled for updattion");
-  const {patientId,pic,sender } = req.body;
-//    console.log(patientId);
-//    console.log(pic);
-//    console.log(sender);
-   let userId = patientId;
-   if (!userId ) {
-    res.status(400);
-    throw new Error("enter the user id");
-  }
-   let updateData;
-  const filter = { userId : userId};
-   
-    
+  const { patientId, pic, sender } = req.body;
+  const userId = patientId;
 
-  if (userId) {
-   
-     if(sender === "registration"){
-        
-        const updateOperation = {
-            $set: {
-                   Rreport:pic,
-            }
-          };
-        //   console.log("hey");
-         updateData = await Report.findOneAndUpdate(filter,updateOperation);
-     }
-     else if(sender === "BloodReport"){
-        const updateOperation = {
-            $set: {
-                Bpreport:pic,
-            }
-          };
-        updateData =await Report.findOneAndUpdate(filter,updateOperation);
-     }
-     else if(sender ==="UrineReport"){
-        const updateOperation = {
-            $set: {
-                Ureport:pic,
-
-            }
-          };
-        updateData =await Report.findOneAndUpdate(filter,updateOperation);
-     }
-     else if(sender ==="Xreport"){
-        const updateOperation = {
-            $set: {
-                Xreport:pic,
-            }
-          };
-        updateData =await Report.findOneAndUpdate(filter,updateOperation);
-     }
-     else if(sender ==="ECGReport"){
-        const updateOperation = {
-            $set: {
-                ECGreport : pic,
-            }
-          };
-        updateData =await Report.findOneAndUpdate(filter,updateOperation)
-     }
-     else if(sender ==="MRIReport"){
-        const updateOperation = {
-            $set: {
-                MRIreport:pic,  
-            }
-          };
-        updateData =await Report.findOneAndUpdate(filter,updateOperation)
-     }
-
-     
-    //  console.log(updateData); 
-  }
-  else {
-    res.status(400);
-    throw new Error("Unable to create");
+  if (!userId) {
+    return res.status(400).json({ message: "Enter the user ID" });
   }
 
-}
-);
+  const filter = { userId: userId };
+  const reportFields = {
+    registration: "Rreport",
+    BloodReport: "Bpreport",
+    UrineReport: "Ureport",
+    Xreport: "Xreport",
+    ECGReport: "ECGreport",
+    MRIReport: "MRIreport",
+  };
+
+  const field = reportFields[sender];
+  if (field) {
+    const updateData = await updateReportField(filter, field, pic);
+    if (!updateData) {
+      return res.status(404).json({ message: "Report not found" });
+    }
+    return res.json({ message: "Report updated successfully" });
+  } else {
+    return res.status(400).json({ message: "Invalid sender type" });
+  }
+});
 
 const getReport = asyncHandler(async (req, res) => {
-    // console.log("yes it is callled for getting");
-  const {patientId,sender } = req.body;
-//    console.log(patientId);
-   
-//    console.log(sender);
-   let userId = patientId;
-   if (!userId ) {
-    res.status(400);
-    throw new Error("enter the user id");
-  }
-   let updateData;
-  const filter = { userId : userId};
-   
-    
+  const { patientId, sender } = req.body;
+  const userId = patientId;
 
-  if (userId) {
-   
-     if(sender === "registration"){
-        
-         updateData = await Report.findOne(filter);
-     }
-     else if(sender === "BloodReport"){
-       
-        updateData =await Report.findOne(filter);
-     }
-     else if(sender ==="UrineReport"){
-      
-        updateData =await Report.findOne(filter);
-     }
-     else if(sender ==="Xreport"){
-       
-        updateData =await Report.findOne(filter);
-     }
-     else if(sender ==="ECGReport"){
-        
-        updateData =await Report.findOne(filter)
-     }
-     else if(sender ==="MRIReport"){
-       
-        updateData =await Report.findOne(filter)
-     }
-     else if(sender === "patient"){
-         updateData = await Report.findOne(filter);
-        //  console.log(updateData);
-     }
-
-     
-    //  console.log(updateData); 
-     res.json(updateData);
-  }
-  else {
-    res.status(400);
-    throw new Error("Unable to create");
+  if (!userId) {
+    return res.status(400).json({ message: "Enter the user ID" });
   }
 
-}
-);
+  const filter = { userId: userId };
+  const updateData = await Report.findOne(filter);
 
+  if (!updateData) {
+    return res.status(404).json({ message: "Report not found" });
+  }
 
+  // Depending on sender, you may want to return specific data
+  // Here we simply return the whole report data
+  return res.json(updateData);
+});
 
-
-module.exports = {registerReport, updateReport ,getReport};
+module.exports = { registerReport, updateReport, getReport };

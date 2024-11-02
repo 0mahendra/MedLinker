@@ -20,10 +20,17 @@ const SideDrawer = ({sender}) => {
    const usertype = sender;
    const[loggedUser ,setLoggerdUser] = useState();
    
+   const token = localStorage.getItem("token");
 const fetchChatsForUser = async () => {
   try {
-    // console.log("this is user id" ,userId);
-    const response = await axios.post('/api/chats/fetch',{userId, usertype});
+    
+    const config = {
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: `Bearer ${token}`, 
+      },
+    };
+    const response = await axios.post('/api/chats/fetch',{userId, usertype} ,config);
     return response.data; // Return the array of chats
     // console.log(data);
     // console.log(response.data);

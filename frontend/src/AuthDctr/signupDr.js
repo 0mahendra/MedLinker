@@ -105,6 +105,7 @@ const SignupDr = ()=>{
    
            });
            localStorage.setItem("userInfo",JSON.stringify(data));
+           localStorage.setItem("token", data.token); 
    
            setLoading(false);
            history.push("/DHome")

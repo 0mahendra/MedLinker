@@ -23,6 +23,7 @@ const UserDetails = ({user ,dctrData})=>{
     const pic= user.pic;
     const userId = user._id;
     const [get,setGet] = useState(false);
+    const token = localStorage.getItem("token");
 
     
 
@@ -45,11 +46,12 @@ const UserDetails = ({user ,dctrData})=>{
             }
 
             try{
-                const config = {
-                  header:{
-                      "Content-type":"application/json",
-                  },
-                };
+              const config = {
+                headers: {
+                  "Content-Type": "application/json", 
+                  Authorization: `Bearer ${token}`, 
+                },
+              };
                 const {data} = await axios.post(
                   "/api/med",
                   {nameP,emailP,userId,phnumber,problem,dctrtype,deciInfo,deciTime,serverity,prevDctr,nameD ,emailD ,pic},

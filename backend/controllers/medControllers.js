@@ -34,61 +34,72 @@ try {
 }
 
 })
- // to regitor a request 
-const medRegistration = asyncHandler(async (req, res) => {
-    // console.log("yes it is callled");
-    
-   
-  const { nameP, emailP,userId,phnumber,problem,dctrtype,deciInfo,deciTime,serverity,prevDctr,nameD,emailD,pic} = req.body;
-  // console.log(userId);
-  if (!nameP || !emailP ) {
-    res.status(400);
-    throw new Error("Please enter your name and email ");
-  }
-   
-  const userExists = await Med.findOne({emailP});
 
-  if (userExists) {
-    res.status(400);
-    throw new Error("your  request is  already exists please wait ");
-    return;
+ const medRegistration = asyncHandler(async (req, res) => {
+   const {
+     nameP,
+     emailP,
+     userId,
+     phnumber,
+     problem,
+     dctrtype,
+     deciInfo,
+     deciTime,
+     serverity,
+     prevDctr,
+     nameD,
+     emailD,
+     pic,
+   } = req.body;
+ 
+   // Validate required fields
+   if (!nameP || !emailP) {
+     return res.status(400).json({ message: "Please enter your name and email." });
+   }
+ 
+   // Check if both emailP and emailD already exist
+   const userExists = await Med.findOne({
+     $and: [{ emailP }, { emailD }] // Check if both emailP and emailD exist
+   });
+ 
+   if (userExists) {
+     return res.status(400).json({ message: "Your request already exists, please wait." });
+   }
+ 
+   // Create a new user record
+   const user = await Med.create({
+     nameP,
+     emailP,
+     userId,
+     phnumber,
+     problem,
+     dctrtype,
+     deciInfo,
+     deciTime,
+     serverity,
+     prevDctr,
+     nameD,
+     emailD,
+     pic,
+   });
+ 
+   // Respond with the user details if registration is successful
+   if (user) {
+     return res.status(201).json({
+       _id: user._id,
+       userId: userId,
+       name: user.nameP, // Corrected to user.nameP for proper reference
+       email: user.emailP, // Corrected to user.emailP for proper reference
+       phnumber: phnumber,
 
-  }
-  else{
-
-  const user = await Med.create({
-    nameP,
-    emailP,
-    userId,
-    phnumber,
-    problem,
-    dctrtype,
-    deciInfo,
-    deciTime,
-    serverity,
-    prevDctr,
-    nameD,
-    emailD,
-    pic,
-
-  });
-  // console.log(user);
-
-  if (user) {
-    res.status(201).json({
-      _id: user._id,
-      userId:userId,
-      name: user.name,
-      email: user.email,
-      phnumber:phnumber,
-      token: generateToken(user._id),
-    });
-  } else {
-    res.status(400);
-    throw new Error("User not found");
-  }
-}
-});
+     });
+   } else {
+     return res.status(400).json({ message: "User not found." });
+   }
+ });
+ 
+ module.exports = { medRegistration };
+ 
 
 const dropRequest = asyncHandler(async (req, res, next) => {
   const { patientId } = req.body;
@@ -122,7 +133,6 @@ const authIdMed = asyncHandler(async (req, res) => {
       emailD:user.emailD,
       nameD :user.nameD,
       pic: user.pic,
-      token: generateToken(user._id),
     });
 
   }catch(err){

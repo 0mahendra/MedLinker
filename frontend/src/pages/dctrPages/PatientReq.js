@@ -7,7 +7,7 @@ import Footer from "../patPages/Footer";
 
 const PatientReq = ()=>{
     const toast =useToast();
-
+    const token = localStorage.getItem("token");
     const[user,setUser] =useState();
     const[loading,setLoading] =useState();
     const[loadingChat ,setLoadingChat] = useState(false);
@@ -30,12 +30,13 @@ const PatientReq = ()=>{
 
       const allPreq = async()=>{
         try{
-            const config = {
-              header:{
-                  "Content-type":"application/json",
-              },
-            };
-            console.log(email);
+          const config = {
+            headers: {
+              "Content-Type": "application/json", 
+              Authorization: `Bearer ${token}`, 
+            },
+          };
+         
             const {data} = await axios.post(
               "/api/med/req",
               {email},
@@ -70,12 +71,18 @@ const Dropthis = async( patientId )=>{
   
 
   try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: `Bearer ${token}`, 
+      },
+    };
     const response = await axios.post('/api/Med/drop', {
       
       patientId,
       
       
-    },);
+    },config);
     console.log(response);
   }
   catch(err){
@@ -99,11 +106,17 @@ const createNewChat = async (doctorId ,patientId ,userId) => {
       // alert("all clear")
 
   try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: `Bearer ${token}`, 
+      },
+    };
     const response = await axios.post('/api/chats/access', {
       doctorId,
       patientId,
       userId,
-    },);
+    },config);
 
      console.log("chat created");
      alert("chat created ")

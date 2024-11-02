@@ -47,6 +47,7 @@ const LoginDr = ()=>{
 
        });
        localStorage.setItem("dctrInfo",JSON.stringify(data));
+       localStorage.setItem("token", data.token); 
 
        setLoading(false);
        history.push("/maind");
