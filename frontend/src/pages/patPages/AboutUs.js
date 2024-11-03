@@ -9,6 +9,9 @@ const AboutUs = () => {
   const navigateTo = (path) => {
     history.push(path);
   };
+  const contact=()=>{
+    history.push("/contact");
+  }
 
   return (
     <>
@@ -24,7 +27,7 @@ const AboutUs = () => {
           <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
             <a className="mr-5 hover:text-gray-900">Features</a>
             <a className="mr-5 hover:text-gray-900 cursor-pointer" onClick={() => navigateTo('/AboutUs')}>About Us</a>
-            <a className="mr-5 hover:text-gray-900">Contact Us</a>
+            <a className="mr-5 hover:text-gray-900" onClick={contact}>Contact Us</a>
             <a className="mr-5 hover:text-gray-900">Emergency</a>
           </nav>
         </div>
