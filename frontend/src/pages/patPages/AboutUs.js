@@ -54,7 +54,7 @@ const AboutUs = () => {
                 <img alt="content" className="rounded-full h-56 w-56 object-cover" src="https://res.cloudinary.com/dojpukez0/image/upload/v1710492570/1710492345074_tn8ilb.jpg" />
               </div>
               <h2 className="title-font text-2xl font-medium text-gray-900 mt-6 mb-3">Anuj Kumar</h2>
-              <p className="leading-relaxed text-base text-gray-700 mb-4">Hello, I'm Anuj Kumar, currently in my third year of B.Tech, pursuing Electrical Engineering from MNNIT Allahabad. I'm a backend developer who is passionate about website designing.</p>
+              <p className="leading-relaxed text-base text-gray-700 mb-4">Hello, I'm Anuj Kumar, currently in my third year of B.Tech, pursuing Electrical Engineering from MNNIT Allahabad. I'm a backend developer who is quite good in NodeJs,ExpressJs,MongoDB.</p>
               <button className="flex mx-auto mt-6 text-white bg-indigo-500 border-0 py-2 px-5 focus:outline-none hover:bg-indigo-600 rounded">
                 <a href="https://www.linkedin.com/in/anuj-kumar-8280a0255/">LinkedIn</a>
               </button>
