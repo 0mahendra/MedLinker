@@ -39,7 +39,7 @@ const AboutUs = () => {
                 <img alt="content" className="rounded-full h-56 w-56 object-cover" src="https://res.cloudinary.com/dojpukez0/image/upload/v1710455242/mahendra_kohsti.jpg" />
               </div>
               <h2 className="title-font text-2xl font-medium text-gray-900 mt-6 mb-3">Mahendra Singh (MERN  Developer)</h2>
-              <p className="leading-relaxed text-base text-gray-700 mb-4">Hello, I'm Mahendra Singh, currently in my third year of B.Tech, pursuing Electrical Engineering from MNNIT Allahabad. I have a keen interest in backend development and am quite efficient in MongoDB, Express.js, and Node.js.</p>
+              <p className="leading-relaxed text-base text-gray-700 mb-4">Hello, I'm Mahendra Singh, currently in my third year of B.Tech, pursuing Electrical Engineering from MNNIT Allahabad. I have a keen interest in MERN development and am quite efficient in MongoDB, Express.js, and Node.js.</p>
               <button className="flex mx-auto mt-6 text-white bg-indigo-500 border-0 py-2 px-5 focus:outline-none hover:bg-indigo-600 rounded">
                 <a href="https://www.linkedin.com/in/mahendra-singh-995063249/">LinkedIn</a>
               </button>
@@ -51,7 +51,7 @@ const AboutUs = () => {
                 <img alt="content" className="rounded-full h-56 w-56 object-cover" src="https://res.cloudinary.com/dojpukez0/image/upload/v1710492570/1710492345074_tn8ilb.jpg" />
               </div>
               <h2 className="title-font text-2xl font-medium text-gray-900 mt-6 mb-3">Anuj Kumar</h2>
-              <p className="leading-relaxed text-base text-gray-700 mb-4">Hello, I'm Anuj Kumar, currently in my third year of B.Tech, pursuing Electrical Engineering from MNNIT Allahabad. I'm a frontend developer who is passionate about website designing.</p>
+              <p className="leading-relaxed text-base text-gray-700 mb-4">Hello, I'm Anuj Kumar, currently in my third year of B.Tech, pursuing Electrical Engineering from MNNIT Allahabad. I'm a backend developer who is passionate about website designing.</p>
               <button className="flex mx-auto mt-6 text-white bg-indigo-500 border-0 py-2 px-5 focus:outline-none hover:bg-indigo-600 rounded">
                 <a href="https://www.linkedin.com/in/mahendra-singh-995063249/">LinkedIn</a>
               </button>
