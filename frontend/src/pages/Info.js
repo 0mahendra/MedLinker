@@ -9,8 +9,7 @@ import { Box, Button, Image, Text, useBreakpoint } from "@chakra-ui/react";
 // import Video from "./Video";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Footer from "./patPages/Footer";
-// import Testing from "../Testing";
-// import { easeIn } from "framer-motion";
+// import Testing from "../Testing";// import { easeIn } from "framer-motion";
 
 // import Footer from "p./patPages.js/Footer.js";
 const Info = ()=>{
