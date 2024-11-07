@@ -47,7 +47,7 @@ io.on("connection", (socket) => {
     console.log("Connected to socket.io");
 
     socket.on("send_message", (data) => {
-        console.log("Message received: ", data); // Log received message
+        console.log("Message received: ", data); 
         socket.broadcast.emit("receive_msg", data);
     });
 });
