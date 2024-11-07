@@ -57,7 +57,7 @@ const registerDctr = asyncHandler(async (req, res) => {
     qualification,
     mproficiency,
   });
-  // console.log(user);
+ 
 
   if (user) {
     res.status(201).json({
