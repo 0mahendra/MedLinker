@@ -39,4 +39,3 @@ const RepoSchema = mongoose.Schema(
 const Report = mongoose.model("Report", RepoSchema);
 
 module.exports = Report;
-// install bcryptjs 
