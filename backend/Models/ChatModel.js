@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Define the chat schema
+
 const chatSchema = new mongoose.Schema({
   doctorId: {
     type: String, // Use String without quotes for the type
@@ -15,7 +15,7 @@ const chatSchema = new mongoose.Schema({
     required: true
   }
 }, {
-  timestamps: true, // Corrected the typo from 'timestaps' to 'timestamps'
+  timestamps: true, 
 });
 
 // Create the Chat model
