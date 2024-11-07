@@ -16,7 +16,7 @@ const accessChat = asyncHandler(async (req, res, next) => {
         userId,
         messages :[],
       });
-      // console.log(chat);
+      
     }
     res.json("chat created");
   } catch (error) {
